@@ -1,15 +1,9 @@
-{-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE DerivingVia #-}
-{-# LANGUAGE DeriveAnyClass #-}
-{-# LANGUAGE DerivingStrategies #-}
+{-# OPTIONS_GHC -Wall -Wno-missing-signatures -Wno-unused-top-binds #-}
 
 import Data.Foldable
 import Data.Function
 import Data.Map (Map)
-import Data.Maybe
 import Data.Monoid
-import GHC.Generics
-import Test.QuickCheck
 import qualified Data.Map as M
 
 data Cmd = Add | Mul | Halt
@@ -23,27 +17,15 @@ type PC = Int
 data Memory = Memory 
     { memRam :: Ram
     , memPC :: PC
-    } deriving (Eq, Show, Generic)
-
-instance Arbitrary Memory where
-    arbitrary = Memory <$> arbitrary <*> arbitrary
-    shrink = genericShrink
+    } deriving (Eq, Show)
 
 data Status = Running | Halted | Error
-    deriving (Eq, Show, Generic)
-
-instance Arbitrary Status where
-    arbitrary = elements [Running, Halted, Error]
-    shrink = genericShrink
+    deriving (Eq, Show)
 
 data Computer = Computer
     { computerStatus :: Status
     , computerMemory :: Memory
-    } deriving (Eq, Show, Generic)
-
-instance Arbitrary Computer where
-    arbitrary = Computer <$> arbitrary <*> arbitrary
-    shrink = genericShrink
+    } deriving (Eq, Show)
 
 evalStep :: Memory -> Either Computer Computer
 evalStep mem@(Memory ram pc) = case (flip M.lookup opcodes =<< M.lookup pc ram) of
@@ -68,8 +50,7 @@ mul (Memory ram pc) =
 evalProgram :: [Int] -> [Int]
 evalProgram input =
     let mem0 = Memory (M.fromList (zip [0..] input)) 0
-        c0 = Computer Running mem0
-        step nxt (Left c) = c
+        step _   (Left c) = c
         step nxt (Right (Computer _ mem)) = nxt (evalStep mem)
     in M.elems $ memRam $ computerMemory $ fix step (Right (Computer Running mem0))
 
@@ -94,20 +75,3 @@ main =
 
 isRight (Right _) = True
 isRight _ = False
-
-newtype Sensible = Sensible Memory
-    deriving (Eq, Show, Generic)
-
-instance Arbitrary Sensible where
-    arbitrary = do
-        codes <- listOf $ elements (M.keys opcodes)
-        filler <- vectorOf (length codes * 3) (getNonNegative <$> arbitrary)
-        let (_,input) = foldr (\c (f1:f2:f3:fill,shtuff) -> (fill, c:f1:f2:f3:shtuff)) (filler,[]) codes
-        pure $ Sensible $ Memory (M.fromList (zip [0..] input)) 0
-
-
-idOpsChangeNothing (Sensible mem) = case evalStep mem of
-    Right (Computer Running mem') -> label "Running" (mem == mem')
-    Left (Computer Halted mem'@(Memory ram pc)) -> label "Halted" $ mem == mem' && ram M.! 0 == 99
-    Left (Computer Error mem') -> label "Error" $ mem == mem'
-
