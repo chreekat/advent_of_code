@@ -33,10 +33,10 @@ buildOrbitMap :: String -> Orbitations
 buildOrbitMap = M.fromListWith (<>) . map (toKeyVal  . readOrbit) . words
 
 type Dist = Int
-type MarkedOrbitations = Map Object (Dist, [Object])
+type MarkedOrbitations a = Map Object (a, [Object])
 
-markObjects :: Orbitations -> MarkedOrbitations
-markObjects orbs =
+markDists :: Orbitations -> MarkedOrbitations Dist
+markDists orbs =
     let markObj nxt dist obj =
             case M.lookup obj orbs of
                 Nothing -> M.singleton obj (dist, [])
@@ -48,4 +48,32 @@ markObjects orbs =
 
 sumMarks = M.foldr (\(d,_) acc -> d + acc) 0
 
-main = print . sumMarks . markObjects . buildOrbitMap =<< readFile "day6-input"
+main1 = print . sumMarks . markDists . buildOrbitMap =<< readFile "day6-input"
+
+markPaths :: Orbitations -> MarkedOrbitations [Object]
+markPaths orbs =
+    let markObj nxt rpath obj =
+            case M.lookup obj orbs of
+                Nothing -> M.singleton obj (reverse rpath, [])
+                Just oo ->
+                    let marked = M.singleton obj (reverse rpath, oo)
+                        rest = map (nxt (obj : rpath)) oo
+                    in M.unions (marked : rest)
+    in fix markObj [] Com
+
+shortestPath :: Object -> Object -> MarkedOrbitations [Object] -> Int
+shortestPath a b morbs =
+    let (pa,_) = morbs M.! a
+        (pb,_) = morbs M.! b
+        horp nxt oo1@(o1:p1) oo2@(o2:p2)
+            | o1 == o2 = nxt p1 p2
+            | otherwise = (oo1,oo2)
+        horp _ oo1 oo2 = (oo1, oo2)
+        (remA, remB) = fix horp pa pb
+
+    in length remA + length remB
+
+dummy2 = "COM)B\nB)C\nC)D\nD)E\nE)F\nB)G\nG)H\nD)I\nE)J\nJ)K\nK)L\nK)YOU\nI)SAN"
+
+santaPath = shortestPath (Object "YOU") (Object "SAN")
+main = print . santaPath . markPaths . buildOrbitMap =<< readFile "day6-input"
