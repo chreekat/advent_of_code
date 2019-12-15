@@ -195,15 +195,10 @@ runAmpCircuit prog =
     -- acc0 is 0.
     foldl' (\input phase -> head (runProgram prog [phase, input])) 0
 
-part1 = do
+main = do
     prog <- readProgramFile "day9-input"
     print $ runProgram prog [1]
-
-part2 = do
-    prog <- readProgramFile "day7-input"
-    print $ (== 2645740) $ maximum $ map (runFeedbackAmpCircuit prog) $ permutations [5..9]
-
-main = part1 >> part2
+    print $ runProgram prog [2]
 
 readProgramFile f = read @[Int] . ("["++) . (++"]") . head . lines <$> readFile f
 
