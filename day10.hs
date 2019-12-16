@@ -41,7 +41,7 @@ readChart str =
         blop (y,s) = zipWith (readAsteroid y) [0..] s
     in Chart h w (S.fromList (catMaybes xs))
 
-data Bearing = U (Ratio Int) | D (Ratio Int) | L | R
+data Bearing = R (Ratio Int) | L (Ratio Int) | U | D
     deriving (Eq, Ord, Show)
 
 takeBearings :: Chart -> Asteroid -> Set Bearing
@@ -54,14 +54,13 @@ takeBearing (Asteroid x0 y0) (Asteroid x1 y1) =
         by = y1 - y0
     in case (compare y1 y0, compare x1 x0) of
         (EQ, EQ) -> error "You can go bear yourself"
-        -- | These are wrong, but it doesn't matter.
         {-
         (YY, XX)
         -}
-        (EQ, LT) -> L
-        (EQ, GT) -> R
-        (LT, _) -> U (bx % by)
-        (GT, _) -> D (bx % by)
+        (_, LT) -> L (by % bx)
+        (_, GT) -> R (by % bx)
+        (LT, EQ) -> U
+        (GT, EQ) -> D
 
 countDetections :: Chart -> Map Asteroid Int
 countDetections c@(Chart{cAsteroid = ch}) = M.fromSet (S.size . takeBearings c) ch
