@@ -8,24 +8,25 @@ main = print (part1, part2)
 
 input = unsafePerformIO (readFile "day6-input.txt")
 
+head' :: Foldable t => t a -> Maybe a
+head' = getFirst . foldMap (First . Just)
+
 groupAnswers = splitOn [""] . lines
 
-combinedAnswers :: Ord a => [[a]] -> [[a]]
-combinedAnswers = group . sort . concat
+reducedAnswers1 :: Ord a => [[a]] -> [[a]]
+reducedAnswers1 = group . sort . concat
+
+reducedAnswers2 :: Ord a => [[a]] -> [[a]]
+reducedAnswers2 individualAnswers =
+    let tot = length individualAnswers
+    in filter ((== tot) . length) (reducedAnswers1 individualAnswers)
+
+summarized reducer =
+    sum (map (length . simplifyAnswers . reducer) (groupAnswers input))
 
 simplifyAnswers :: Eq a => [[a]] -> [a]
 simplifyAnswers = catMaybes . map head'
 
-head' :: Foldable t => t a -> Maybe a
-head' = getFirst . foldMap (First . Just)
+part1 = summarized reducedAnswers1
 
-part1 = lol combinedAnswers
-
-lol f = sum (map (length . simplifyAnswers . f) (groupAnswers input))
-
-combinedAnswers' :: Ord a => [[a]] -> [[a]]
-combinedAnswers' individualAnswers =
-    let tot = length individualAnswers
-    in filter ((== tot) . length) (combinedAnswers individualAnswers)
-
-part2 = lol combinedAnswers'
+part2 = summarized reducedAnswers2
