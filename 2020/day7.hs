@@ -11,8 +11,10 @@ import System.IO.Unsafe
 
 import Debug.Pretty.Simple
 
-main = print (part1, part2)
+test = unsafePerformIO (readFile "day7-test.txt")
+input = unsafePerformIO (readFile "day7-input.txt")
 
+main = print (part1, part2)
 
 pRule x =
     let [label, contains'] = splitOn " bags contain " x
@@ -29,51 +31,42 @@ pBag b =
         (count:rest) = words barf
     in (read count, unwords rest)
 
-type Rule = (String,[(Int, String)])
-
-reaches' :: String -> Map.Map String Bool -> Rule -> (String, Bool)
-reaches' targ st (label, entries') =
-    let entries = map snd entries'
-    in (label 
-        , or
-            (Compose
-                ( pure (targ `elem` entries)
-                : map (Map.lookup `flip` st) entries
-                )
-            )
-        )
+type Rule = (String,[Entry])
+type Entry = (Int, String)
 
 proc
-    :: Ord k
-    => [Rule]
-    -> (Map.Map k a -> Rule -> (k, a))
-    -> (Map.Map k a -> result)
+    :: [Rule]
+    -> (Map.Map String a -> [Entry] -> a)
+    -> (Map.Map String a -> result)
     -> result 
 proc rules step final =
     let m = fix f
-        f m' = Map.fromList ((map (step m')) rules)
+        f m' = Map.fromList ((map (second (step m'))) rules)
     in final m
 
+reaches' :: String -> Map.Map String Bool -> [Entry] -> Bool
+reaches' targ st entries' =
+    let entries = map snd entries'
+    in or
+        (Compose
+            ( pure (targ `elem` entries)
+            : map (Map.lookup `flip` st) entries
+            )
+        )
 
 reaches targ rules = proc rules (reaches' targ) (Map.size . Map.filter id)
-
-
-test = unsafePerformIO (readFile "day7-test.txt")
-input = unsafePerformIO (readFile "day7-input.txt")
 
 part1 = reaches "shiny gold" (map pRule (lines input))
 
 
 prod (a,b) = a * b
 
-holds' :: Map.Map String Int -> Rule -> (String, Int)
-holds' st (label, entries) =
-    (label 
-    , sum $ fmap prod $ getCompose $ fmap (+ 1)
+holds' :: Map.Map String Int -> [Entry] -> Int
+holds' st entries =
+    sum $ fmap prod $ getCompose $ fmap (+ 1)
         (Compose (Compose
             (map (sequence . second (Map.lookup `flip` st)) entries)
         ))
-    )
 
 holds targ rules = proc rules holds' (Map.lookup targ)
 
