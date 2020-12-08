@@ -11,7 +11,7 @@ import qualified Data.Vector as V
 
 import SimpleParse
 
-main = print (part1 input)
+main = print (part1 input, part2 input)
 
 
 acc v = bimap (+ 1) (+ v)
@@ -32,7 +32,6 @@ step = do
         else () <$ do
             (cmd, val) <- asks (V.! deref)
             modify (second (exec cmd val) . first (V.// [(deref, True)]))
-            step
 
 
 test = unsafePerformIO (readFile "day8-test.txt")
@@ -40,7 +39,8 @@ input = unsafePerformIO (readFile "day8-input.txt")
 
 mkPair [a,b] = (a,b)
 
-part1 = runProgram step . mkInstrs
+part1 :: String -> Int
+part1 = left . runProgram (forever step) . mkInstrs
 
 
 mkInstrs = V.fromList . map (second (parse' signedInt) . mkPair . words) . lines
@@ -69,10 +69,10 @@ step2 = do
                 else () <$ do
                     (cmd, val) <- asks (V.! deref)
                     modify (second (exec cmd val) . first (V.// [(deref, True)]))
-                    step2
 
 
 left (Left e) = e
 left _ = error "Sinister!"
 
-part2 = getFirst . foldMap (First . left . runProgram step2) . map V.fromList . allPrograms . V.toList . mkInstrs
+part2 :: String -> Maybe Int
+part2 = getFirst . foldMap (First . left . runProgram (forever step2)) . map V.fromList . allPrograms . V.toList . mkInstrs
