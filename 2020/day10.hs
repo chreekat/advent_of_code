@@ -26,8 +26,8 @@ test2 = inp "day10-test2.txt"
 main = do
     print part1test
     print part1actual
-    print part2test
-    print part2actual
+    print $ part2 test
+    print $ part2 input
 
 part1test = "hi"
 part1testval = 220
@@ -72,8 +72,7 @@ step2 c r@[(n, x), (m, y)] =
     else (n + m, c) : r
 
 step2 c r@((n, x) : (m, y) : (o, z) : _) =
-    let can1 = True
-        can2 = y - c <= 3
+    let can2 = y - c <= 3
         can3 = z - c <= 3
 
     in if can3
@@ -84,5 +83,5 @@ step2 c r@((n, x) : (m, y) : (o, z) : _) =
             else (n, c) : r
 
 
-part2 :: [Int] -> [(Integer, Int)]
-part2 = foldr step2 [] . (0 :) . sort
+part2 :: [Int] -> Int
+part2 = fst . head . foldr step2 [] . (0 :) . sort
