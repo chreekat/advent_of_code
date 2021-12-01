@@ -1,0 +1,23 @@
+2021-12-01T22:18:08,954 Using pip 21.0.1 from /nix/store/91b1wvw5rxvyqwzyi9zm9j6cnpjx4ay0-python3.9-bootstrapped-pip-21.0.1/lib/python3.9/site-packages/pip (python 3.9)
+2021-12-01T22:18:08,954 Non-user install because user site-packages disabled
+2021-12-01T22:18:08,963 Created temporary directory: /run/user/1000/pip-ephem-wheel-cache-1uafhgso
+2021-12-01T22:18:08,964 Created temporary directory: /run/user/1000/pip-req-tracker-9jii6mac
+2021-12-01T22:18:08,964 Initialized build tracking at /run/user/1000/pip-req-tracker-9jii6mac
+2021-12-01T22:18:08,964 Created build tracker: /run/user/1000/pip-req-tracker-9jii6mac
+2021-12-01T22:18:08,964 Entered build tracker: /run/user/1000/pip-req-tracker-9jii6mac
+2021-12-01T22:18:08,964 Created temporary directory: /run/user/1000/pip-install-ooy0odje
+2021-12-01T22:18:08,964 ERROR: You must give at least one requirement to install (see "pip help install")
+2021-12-01T22:18:08,964 Exception information:
+2021-12-01T22:18:08,964 Traceback (most recent call last):
+2021-12-01T22:18:08,964   File "/nix/store/91b1wvw5rxvyqwzyi9zm9j6cnpjx4ay0-python3.9-bootstrapped-pip-21.0.1/lib/python3.9/site-packages/pip/_internal/cli/base_command.py", line 189, in _main
+2021-12-01T22:18:08,964     status = self.run(options, args)
+2021-12-01T22:18:08,964   File "/nix/store/91b1wvw5rxvyqwzyi9zm9j6cnpjx4ay0-python3.9-bootstrapped-pip-21.0.1/lib/python3.9/site-packages/pip/_internal/cli/req_command.py", line 178, in wrapper
+2021-12-01T22:18:08,964     return func(self, options, args)
+2021-12-01T22:18:08,964   File "/nix/store/91b1wvw5rxvyqwzyi9zm9j6cnpjx4ay0-python3.9-bootstrapped-pip-21.0.1/lib/python3.9/site-packages/pip/_internal/commands/install.py", line 287, in run
+2021-12-01T22:18:08,964     reqs = self.get_requirements(args, options, finder, session)
+2021-12-01T22:18:08,964   File "/nix/store/91b1wvw5rxvyqwzyi9zm9j6cnpjx4ay0-python3.9-bootstrapped-pip-21.0.1/lib/python3.9/site-packages/pip/_internal/cli/req_command.py", line 381, in get_requirements
+2021-12-01T22:18:08,964     raise CommandError(
+2021-12-01T22:18:08,964 pip._internal.exceptions.CommandError: You must give at least one requirement to install (see "pip help install")
+2021-12-01T22:18:08,970 WARNING: You are using pip version 21.0.1; however, version 21.3.1 is available.
+2021-12-01T22:18:08,970 You should consider upgrading via the '/nix/store/w69imqpd15npgcm1lq99fymnxdgw7dwr-python3-3.9.6/bin/python3.9 -m pip install --upgrade pip' command.
+2021-12-01T22:18:08,970 Removed build tracker: '/run/user/1000/pip-req-tracker-9jii6mac'
