@@ -13,6 +13,12 @@ puz1 = foldl' step Nothing
 day1dat1 :: [Int]
 day1dat1 = map read (lines (unsafePerformIO (readFile "day1.txt")))
 
-day1answer = fst <$> (puz1 day1dat1)
+ans1_1 = fst <$> (puz1 day1dat1)
+
+theSeq x = map sum3 (zip3 x (tail x) (tail (tail x)))
 
 
+ans1_2 = fst <$> (puz1 (theSeq (day1dat1)))
+
+-- ghcid needs this?
+main = undefined
