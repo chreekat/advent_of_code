@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 set -e
 
-name=day$(date %-1d)
-if [ -e ${name}.hs ]; then
-    cp template.hs ${name}.hs
+num=$(date +%-1d)
+name=day${num}
+if [ ! -e ${name}.hs ]; then
+    sed < template.hs > ${name}.hs -e "s/XXX/${num}/g"
 else
     >&2 echo "${name}.hs already exists"
-aocd $(date %-1d) > ${name}.txt
+fi
+if [ ! -e ${name}.txt ]; then
+    aocd $(date +%-1d) > ${name}.txt
+else
+    >&2 echo "${name}.txt already exists"
+fi
