@@ -1,5 +1,5 @@
 {-# LANGUAGE PartialTypeSignatures #-}
-import Tropmi
+import Tropes
 
 step Nothing i = Just (0, i)
 step (Just (ct, i)) j = Just ((if i < j then 1 else 0) + ct, j) 

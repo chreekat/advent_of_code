@@ -1,4 +1,4 @@
-module Tropmi (foldl', unsafePerformIO, module Tropmi) where
+module Tropes (foldl', unsafePerformIO, module Tropes) where
 import Data.List
 import System.IO.Unsafe
 
