@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -e
+
+name=day$(date %-1d)
+if [ -e ${name}.hs ]; then
+    cp template.hs ${name}.hs
+else
+    >&2 echo "${name}.hs already exists"
+aocd $(date %-1d) > ${name}.txt
