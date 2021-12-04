@@ -1,10 +1,11 @@
-module Tropes (pTraceShow, First(..),pPrint, All(..),intercalate, splitOn, traceShow, traceShowId, foldl', transpose , unsafePerformIO, module Tropes) where
+module Tropes (partition, isJust, isNothing, Last(..),pTraceShow, First(..),pPrint, All(..),intercalate, splitOn, traceShow, traceShowId, foldl', transpose , unsafePerformIO, module Tropes) where
 import Data.List
 import Data.List.Split
 import System.IO.Unsafe
 import Data.Monoid
 import Text.Pretty.Simple
 import Data.Monoid
+import Data.Maybe
 
 import Debug.Trace
 import Debug.Pretty.Simple

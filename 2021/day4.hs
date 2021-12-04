@@ -59,7 +59,7 @@ mark (Board l a) n =
 
 markLine n = map (markCell n)
 
-markCell n c@(Cell num' m) 
+markCell n c@(Cell num' m)
     | num' == n = Cell num' True
     | otherwise = c
 
@@ -67,15 +67,22 @@ gameOver = getFirst . foldMap (First . snd)
 
 step (MyState ns bs)
     | [] <- ns = error "Game over!"
-    | (n:rem) <- ns = 
+    | (n:rem) <- ns =
         let bs' = map (newBoard n) bs
         in (rem, bs')
 
-playGame st = 
+playGame st =
     let (rem, bs') = step st
     in case gameOver  bs' of
         Just s -> {-pTraceShow (MyState rem (map fst bs')) $-} Just s
         Nothing -> playGame (MyState rem (map fst bs'))
+
+loseGame st =
+    let (rem, bs') = step st
+        (winner, losers) = partition (isJust . snd) bs'
+    in case (winner, losers) of
+        ([lastWinner], []) -> snd lastWinner
+        (_,xs) -> loseGame (MyState rem (map fst xs))
 
 -- WRAP UP
 --
@@ -84,7 +91,7 @@ ans1 :: _
 ans1 = playGame (mkState dat)
 
 ans2 :: _
-ans2 = undefined
+ans2 = loseGame (mkState dat)
 
 -- ghcid needs this?
 main = undefined
