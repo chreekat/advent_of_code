@@ -1,4 +1,5 @@
 {-# LANGUAGE PartialTypeSignatures #-}
+
 import Tropes
 
 ex1 = []

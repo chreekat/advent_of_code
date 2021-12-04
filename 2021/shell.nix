@@ -29,6 +29,7 @@ in pkgs.mkShell rec {
     libxslt
     libzip
     zlib
+    haskellPackages.fourmolu
   ];
 
   # Run this command, only after creating the virtual environment
