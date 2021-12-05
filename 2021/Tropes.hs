@@ -22,7 +22,7 @@ pars = splitOn "\n\n"
 unpars = intercalate "\n\n"
 
 
-range x y = if x > y then [y..x] else [x..y]
+range x y = if x > y then reverse [y..x] else [x..y]
 
 mapAlter :: Ord k => (Maybe a -> Maybe a) -> k -> Map.Map k a -> Map.Map k a 
 mapAlter = Map.alter
