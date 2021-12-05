@@ -21,10 +21,9 @@ _3to2 (a, b, c) = (a, b)
 pars = splitOn "\n\n"
 unpars = intercalate "\n\n"
 
+range x y = if x > y then reverse [y .. x] else [x .. y]
 
-range x y = if x > y then reverse [y..x] else [x..y]
-
-mapAlter :: Ord k => (Maybe a -> Maybe a) -> k -> Map.Map k a -> Map.Map k a 
+mapAlter :: Ord k => (Maybe a -> Maybe a) -> k -> Map.Map k a -> Map.Map k a
 mapAlter = Map.alter
 
 mapEmpty = Map.empty
@@ -35,5 +34,5 @@ mapFilter = Map.filter
 
 mapSingleton = Map.singleton
 
-mapUnionsWith :: (Foldable f, Ord k) => (a -> a -> a) -> f (Map.Map k a) -> Map.Map k a 
+mapUnionsWith :: (Foldable f, Ord k) => (a -> a -> a) -> f (Map.Map k a) -> Map.Map k a
 mapUnionsWith = Map.unionsWith
