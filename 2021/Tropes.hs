@@ -1,4 +1,4 @@
-module Tropes (genericLength, Map.fromListWith, Map.mapKeysWith, Map.Map, iterate', group, (&&&), pTraceShowId, on, sort, fromMaybe, partition, isJust, isNothing, Last (..), pTraceShow, First (..), pPrint, All (..), intercalate, splitOn, traceShow, traceShowId, foldl', transpose, unsafePerformIO, module Tropes) where
+module Tropes (minimumBy, genericLength, Map.fromListWith, Map.mapKeysWith, Map.Map, iterate', group, (&&&), pTraceShowId, on, sort, fromMaybe, partition, isJust, isNothing, Last (..), pTraceShow, First (..), pPrint, All (..), intercalate, splitOn, traceShow, traceShowId, foldl', transpose, unsafePerformIO, module Tropes) where
 
 import Control.Arrow
 import Data.Function
@@ -42,3 +42,6 @@ mapUnionsWith = Map.unionsWith
 
 mapFromList :: Ord k => [(k, a)] -> Map.Map k a
 mapFromList = Map.fromList
+
+avg :: Fractional a => [a] -> a
+avg xs = sum xs / genericLength xs
