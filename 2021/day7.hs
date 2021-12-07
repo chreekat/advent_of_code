@@ -12,15 +12,23 @@ initials = map read . splitOn "," . init
 
 cost xs i = sum . map (abs . (i -)) $ xs
 
-f1 s = 
+f1 s =
     let xs = initials s
-    in minimum $ map (cost xs) [0..maximum xs]
+     in minimum $ map (cost xs) [0 .. maximum xs]
+
+crabCost x y = sum [1 .. abs (x - y)]
+
+cost2 xs i = sum . map (crabCost i) $ xs
+
+f2 s =
+    let xs = initials s
+     in minimum $ map (cost2 xs) [0 .. maximum xs]
 
 ans1 :: _
-ans1 = undefined
+ans1 = f1 dat
 
 ans2 :: _
-ans2 = undefined
+ans2 = f2 dat
 
 -- ghcid needs this?
 main = undefined
