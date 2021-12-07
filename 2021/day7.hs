@@ -14,9 +14,11 @@ cost xs i = sum . map (abs . (i -)) $ xs
 
 f1 s =
     let xs = initials s
-     in minimum $ map (cost xs) [0 .. maximum xs]
+     in cost xs (median xs)
 
-crabCost x y = sum [1 .. abs (x - y)]
+crabCost x y =
+    let z = abs (x - y)
+     in (z + 1) * z `div` 2
 
 cost2 xs i = sum . map (crabCost i) $ xs
 

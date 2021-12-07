@@ -45,3 +45,7 @@ mapFromList = Map.fromList
 
 avg :: Fractional a => [a] -> a
 avg xs = sum xs / genericLength xs
+
+median xs =
+    let n = length xs
+     in head (drop (n `div` 2) (sort xs))
