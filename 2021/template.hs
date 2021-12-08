@@ -3,9 +3,7 @@
 import Tropes
 
 ex1, dat :: String
-
 ex1 = ""
-
 dat = unsafePerformIO (readFile "dayXXX.txt")
 
 ans1 :: _
