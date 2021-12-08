@@ -1,4 +1,4 @@
-module Tropes (minimumBy, genericLength, Map.fromListWith, Map.mapKeysWith, Map.Map, iterate', group, (&&&), pTraceShowId, on, sort, fromMaybe, partition, isJust, isNothing, Last (..), pTraceShow, First (..), pPrint, All (..), intercalate, splitOn, traceShow, traceShowId, foldl', transpose, unsafePerformIO, module Tropes) where
+module Tropes (fromJust, findIndices, findIndex, sortBy, (\\), minimumBy, genericLength, Map.fromListWith, Map.mapKeysWith, Map.Map, iterate', group, (&&&), pTraceShowId, on, sort, fromMaybe, partition, isJust, isNothing, Last (..), pTraceShow, First (..), pPrint, All (..), intercalate, splitOn, traceShow, traceShowId, foldl', transpose, unsafePerformIO, module Tropes) where
 
 import Control.Arrow
 import Data.Function
