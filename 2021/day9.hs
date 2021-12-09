@@ -24,6 +24,10 @@ instance Comonad Heights where
 
 hmap (Heights p m) = m
 
+hpoint (Heights p m) = p
+
+hval (Heights p m) = m ! p
+
 mkHeights :: String -> Heights Int
 mkHeights = Heights (0,0) . fmap (read . (:[])) . mapFromList . foldMap f . zip [0..] . map (zip [0..]) . lines
   where
@@ -35,6 +39,7 @@ neighbors (Heights (x,y) m) =
     | x' <- [x-1,x,x+1]
     , y' <- [y-1,y,y+1]
     , x' /= x || y /= y'
+    , x' == x || y' == y
     , let p = (x',y')
     , Just v <- [mapLookup p m]
     ]
@@ -52,8 +57,35 @@ lowScore = sum . map (+1) . lowPoints
 ans1 :: _
 ans1 = lowScore (mkHeights dat)
 
+lowPoints' :: _ -> [Heights  Int]
+lowPoints' h@(Heights p m) = 
+    let ks = keys . mapFilter snd . hmap . extend lowest $ h
+    in map (`Heights` m) ks
+
+
+largerNeighbors h@(Heights p m) =
+    let ns = neighbors h
+        v = m ! p
+    in map (flip Heights m . fst) $ filter ((\v' -> v' < 9 && v' >= v) . snd) ns
+
+
+basinNeighbors bs h@(Heights p m) =
+    let ls = largerNeighbors h
+    in ls \\ bs
+
+basin :: Heights Int -> [Heights Int]
+basin h = go [h] h where
+    go bs h = case basinNeighbors bs h of
+        [] -> bs
+        -- FIXME: use a fold to avoid expensive nubbing
+        xs -> nub $ concatMap (go (bs <> xs) ) xs
+
+
+basinScore =
+    product . take 3 . reverse . sort . map length . map basin . lowPoints' . mkHeights
+
 ans2 :: _
-ans2 = undefined
+ans2 = basinScore dat
 
 -- ghcid needs this?
 main = undefined
