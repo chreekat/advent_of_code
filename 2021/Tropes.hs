@@ -1,6 +1,9 @@
-module Tropes (fromJust, findIndices, findIndex, sortBy, (\\), minimumBy, genericLength, Map.fromListWith, Map.mapKeysWith, Map.Map, iterate', group, (&&&), pTraceShowId, on, sort, fromMaybe, partition, isJust, isNothing, Last (..), pTraceShow, First (..), pPrint, All (..), intercalate, splitOn, traceShow, traceShowId, foldl', transpose, unsafePerformIO, module Tropes) where
+module Tropes (toList, first, (Map.!), Map.mapWithKey, join, Comonad(..), Map.keys, fromJust, findIndices, findIndex, sortBy, (\\), minimumBy, genericLength, Map.fromListWith, Map.mapKeysWith, Map.Map, iterate', group, (&&&), pTraceShowId, on, sort, fromMaybe, partition, isJust, isNothing, Last (..), pTraceShow, First (..), pPrint, All (..), intercalate, splitOn, traceShow, traceShowId, foldl', transpose, unsafePerformIO, module Tropes) where
 
+import Control.Monad
+import Control.Comonad
 import Control.Arrow
+import Data.Foldable
 import Data.Function
 import Data.List
 import Data.List.Split
@@ -29,6 +32,9 @@ range x y = if x > y then reverse [y .. x] else [x .. y]
 mapAlter :: Ord k => (Maybe a -> Maybe a) -> k -> Map.Map k a -> Map.Map k a
 mapAlter = Map.alter
 
+mapLookup :: Ord k => k -> Map k a -> Maybe a
+mapLookup = Map.lookup
+
 mapEmpty = Map.empty
 
 mapToList = Map.toList
@@ -49,3 +55,8 @@ avg xs = sum xs / genericLength xs
 median xs =
     let n = length xs
      in head (drop (n `div` 2) (sort xs))
+
+-- Paterson always used irrefutable patterns for tuples. Why?
+assoc ((a,b),c) = (a,(b,c))
+
+unassoc (a,(b,c)) = ((a,b),c)
