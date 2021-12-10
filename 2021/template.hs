@@ -1,5 +1,5 @@
-{-# LANGUAGE PartialTypeSignatures #-}
 {-# LANGUAGE DeriveFunctor #-}
+{-# LANGUAGE PartialTypeSignatures #-}
 {-# LANGUAGE TupleSections #-}
 
 import Tropes
