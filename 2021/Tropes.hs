@@ -1,4 +1,4 @@
-module Tropes (nub, toList, first, (Map.!), Map.mapWithKey, join, Comonad(..), Map.keys, fromJust, findIndices, findIndex, sortBy, (\\), minimumBy, genericLength, Map.fromListWith, Map.mapKeysWith, Map.Map, iterate', group, (&&&), pTraceShowId, on, sort, fromMaybe, partition, isJust, isNothing, Last (..), pTraceShow, First (..), pPrint, All (..), intercalate, splitOn, traceShow, traceShowId, foldl', transpose, unsafePerformIO, module Tropes) where
+module Tropes (NE.NonEmpty(..),nub, toList, first, (Map.!), Map.mapWithKey, join, Comonad(..), Map.keys, fromJust, findIndices, findIndex, sortBy, (\\), minimumBy, genericLength, Map.fromListWith, Map.mapKeysWith, Map.Map, iterate', group, (&&&), pTraceShowId, on, sort, fromMaybe, partition, isJust, isNothing, Last (..), pTraceShow, First (..), pPrint, All (..), intercalate, splitOn, traceShow, traceShowId, foldl', transpose, unsafePerformIO, module Tropes) where
 
 import Control.Monad
 import Control.Comonad
@@ -6,6 +6,7 @@ import Control.Arrow
 import Data.Foldable
 import Data.Function
 import Data.List
+import qualified Data.List.NonEmpty as NE
 import Data.List.Split
 import Data.Map (Map)
 import qualified Data.Map as Map
