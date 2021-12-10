@@ -19,9 +19,7 @@ p_string = string
 
 pInt = parseMaybe p_int
 
-
 parse' p = fromJust . parseMaybe p
-
 
 spaceConsumer :: Parser ()
 spaceConsumer = L.space space1 empty empty
