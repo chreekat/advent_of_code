@@ -1,8 +1,11 @@
-module Tropes (mapMaybe, NE.NonEmpty(..),nub, toList, first, (Map.!), Map.mapWithKey, join, Comonad(..), Map.keys, fromJust, findIndices, findIndex, sortBy, (\\), minimumBy, genericLength, Map.fromListWith, Map.mapKeysWith, Map.Map, iterate', group, (&&&), pTraceShowId, on, sort, fromMaybe, partition, isJust, isNothing, Last (..), pTraceShow, First (..), pPrint, All (..), intercalate, splitOn, traceShow, traceShowId, foldl', transpose, unsafePerformIO, module Tropes) where
+module Tropes (Sum (..), replicateM, replicateM_, execState, second, runState, (<=<), traverse_, gets, State (..), modify, mapMaybe, NE.NonEmpty (..), nub, toList, first, (Map.!), Map.mapWithKey, join, Comonad (..), Map.keys, fromJust, findIndices, findIndex, sortBy, (\\), minimumBy, genericLength, Map.fromListWith, Map.mapKeysWith, Map.Map, iterate', group, (&&&), pTraceShowId, on, sort, fromMaybe, partition, isJust, isNothing, Last (..), pTraceShow, First (..), pPrint, All (..), intercalate, splitOn, traceShow, traceShowId, foldl', transpose, unsafePerformIO, module Tropes) where
 
-import Control.Monad
-import Control.Comonad
 import Control.Arrow
+import Control.Comonad
+import Control.Monad
+import Control.Monad.State
+import Control.Monad.Writer
+import Data.Bool
 import Data.Foldable
 import Data.Function
 import Data.List
@@ -50,6 +53,14 @@ mapUnionsWith = Map.unionsWith
 mapFromList :: Ord k => [(k, a)] -> Map.Map k a
 mapFromList = Map.fromList
 
+mapAdjust :: Ord k => (a -> a) -> k -> Map k a -> Map k a
+mapAdjust = Map.adjust
+
+mapInsert :: Ord k => k -> a -> Map k a -> Map k a
+mapInsert = Map.insert
+
+mapSize = Map.size
+
 avg :: Fractional a => [a] -> a
 avg xs = sum xs / genericLength xs
 
@@ -58,6 +69,6 @@ median xs =
      in head (drop (n `div` 2) (sort xs))
 
 -- Paterson always used irrefutable patterns for tuples. Why?
-assoc ((a,b),c) = (a,(b,c))
+assoc ((a, b), c) = (a, (b, c))
 
-unassoc (a,(b,c)) = ((a,b),c)
+unassoc (a, (b, c)) = ((a, b), c)
