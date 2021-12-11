@@ -71,6 +71,10 @@ step = do
   where
     all i = [(x, y) | x <- [0 .. i -1], y <- [0 .. i -1]]
 
+checkSync i = do
+    num <- step
+    if num == 100 then pure i else checkSync (i + 1)
+
 resetNap :: _
 resetNap = fmap (first (&& False))
 
@@ -101,11 +105,13 @@ flash pt = modify (adjMap (mapInsert pt (True, 0)))
 
 run n = runState (replicateM n step) . mkNap
 
+findSync = fst . runState (checkSync 1) . mkNap
+
 ans1 :: _
 ans1 = sum . fst $ run 100 dat
 
 ans2 :: _
-ans2 = undefined
+ans2 = findSync dat
 
 -- ghcid needs this?
 main = undefined
