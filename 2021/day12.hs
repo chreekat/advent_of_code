@@ -1,5 +1,6 @@
 {-# LANGUAGE DeriveFunctor #-}
 {-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE PartialTypeSignatures #-}
 {-# LANGUAGE TupleSections #-}
 {-# LANGUAGE ViewPatterns #-}
@@ -24,12 +25,13 @@ instance (Ord a, Semigroup a) => Semigroup (V a) where
 
 data G = G
     { gm :: Map String (V String)
+    , canRevisit :: Bool
     }
     deriving (Eq, Show)
 
 mkSegs = map (splitOn "-") . lines
 
-mkG = G . mapUnionsWith (<>) . map f . mkSegs
+mkG s = G (mapUnionsWith (<>) . map f . mkSegs $ s) True
   where
     f [a, b] =
         mapFromList
@@ -58,8 +60,45 @@ proc og@(gm -> g) final v =
 ans1 :: _
 ans1 = length $ proc (mkG dat) "end" "start"
 
+visit v = v{visited = True}
+
+proc2 g final initial = proc2' g final initial initial
+
+proc2' :: G -> String -> String -> String -> [[String]]
+proc2' og@(G{gm, canRevisit}) final initial v =
+    let big = all isUpper v
+        V (toList -> es) vis = gm ! v
+        newGs =
+            case (big, not vis, canRevisit) of
+                -- big
+                (True, _, _) -> [og]
+                -- small, not visited
+                (_, True, _) -> [og{gm = mapAdjust visit v gm}]
+                -- small, visited, canRevisit
+                (_, _, True) ->
+                    [ og
+                        { gm = mapAdjust visit v gm
+                        , canRevisit = False
+                        }
+                    ]
+                -- otherwise
+                _ -> []
+        finished = v == final
+        backAtStart = v == initial && vis
+     in case (finished, backAtStart) of
+            (True, _) -> [[v]]
+            (_, True) -> []
+            _ ->
+                concatMap
+                    ( \theG ->
+                        map
+                            (v :)
+                            (concatMap (proc2' theG final initial) es)
+                    )
+                    newGs
+
 ans2 :: _
-ans2 = undefined
+ans2 = length $ proc2 (mkG dat) "end" "start"
 
 -- ghcid needs this?
 main = undefined
