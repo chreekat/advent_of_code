@@ -1,4 +1,4 @@
-module Tropes (coerce, Max(..), isUpper, Set, Sum (..), replicateM, replicateM_, execState, second, runState, (<=<), traverse_, gets, State (..), modify, mapMaybe, NE.NonEmpty (..), nub, toList, first, (Map.!), Map.mapWithKey, join, Comonad (..), Map.keys, fromJust, findIndices, findIndex, sortBy, (\\), minimumBy, genericLength, Map.fromListWith, Map.mapKeysWith, Map.Map, iterate', group, (&&&), pTraceShowId, on, sort, fromMaybe, partition, isJust, isNothing, Last (..), pTraceShow, First (..), pPrint, All (..), intercalate, splitOn, traceShow, traceShowId, foldl', transpose, unsafePerformIO, module Tropes) where
+module Tropes (coerce, Max (..), isUpper, Set, Sum (..), replicateM, replicateM_, execState, second, runState, (<=<), traverse_, gets, State (..), modify, mapMaybe, NE.NonEmpty (..), nub, toList, first, (Map.!), Map.mapWithKey, join, Comonad (..), Map.keys, fromJust, findIndices, findIndex, sortBy, (\\), minimumBy, genericLength, Map.fromListWith, Map.mapKeysWith, Map.Map, iterate', group, (&&&), pTraceShowId, on, sort, fromMaybe, partition, isJust, isNothing, Last (..), pTraceShow, First (..), pPrint, All (..), intercalate, splitOn, traceShow, traceShowId, foldl', transpose, unsafePerformIO, module Tropes) where
 
 import Control.Arrow
 import Control.Comonad
@@ -8,7 +8,6 @@ import Control.Monad.Writer hiding (First, Last)
 import Data.Bool
 import Data.Char
 import Data.Coerce
-import Data.Semigroup
 import Data.Foldable
 import Data.Function
 import Data.List
@@ -17,6 +16,7 @@ import Data.List.Split
 import Data.Map (Map)
 import qualified Data.Map as Map
 import Data.Maybe
+import Data.Semigroup
 import Data.Set (Set)
 import qualified Data.Set as Set
 import System.IO.Unsafe
@@ -25,64 +25,76 @@ import Text.Pretty.Simple
 import Debug.Pretty.Simple
 import Debug.Trace
 
-sum2 (a, b) = sum [a, b]
-sum3 (a, b, c) = sum [a, b, c]
-
-prod2 (a, b) = product [a, b]
-
+-- Paterson always used irrefutable patterns for tuples. Why?
 _3to2 (a, b, c) = (a, b)
 
-pars = splitOn "\n\n"
-unpars = intercalate "\n\n"
+assoc ((a, b), c) = (a, (b, c))
 
-range x y = if x > y then reverse [y .. x] else [x .. y]
-
-mapAlter :: Ord k => (Maybe a -> Maybe a) -> k -> Map.Map k a -> Map.Map k a
-mapAlter = Map.alter
-
-mapLookup :: Ord k => k -> Map k a -> Maybe a
-mapLookup = Map.lookup
-
-mapEmpty = Map.empty
-
-mapToList = Map.toList
-
-mapFilter = Map.filter
-
-mapSingleton = Map.singleton
-
-mapUnionsWith :: (Foldable f, Ord k) => (a -> a -> a) -> f (Map.Map k a) -> Map.Map k a
-mapUnionsWith = Map.unionsWith
-
-mapFromList :: Ord k => [(k, a)] -> Map.Map k a
-mapFromList = Map.fromList
+avg :: Fractional a => [a] -> a
+avg xs = sum xs / genericLength xs
 
 mapAdjust :: Ord k => (a -> a) -> k -> Map k a -> Map k a
 mapAdjust = Map.adjust
 
-mapInsert :: Ord k => k -> a -> Map k a -> Map k a
-mapInsert = Map.insert
-
-mapSize = Map.size
+mapAlter :: Ord k => (Maybe a -> Maybe a) -> k -> Map.Map k a -> Map.Map k a
+mapAlter = Map.alter
 
 mapDelete :: Ord k => k -> Map k a -> Map k a
 mapDelete = Map.delete
 
-avg :: Fractional a => [a] -> a
-avg xs = sum xs / genericLength xs
+mapEmpty = Map.empty
+
+mapFilter = Map.filter
+
+mapFromList :: Ord k => [(k, a)] -> Map.Map k a
+mapFromList = Map.fromList
+
+mapInsert :: Ord k => k -> a -> Map k a -> Map k a
+mapInsert = Map.insert
+
+mapLookup :: Ord k => k -> Map k a -> Maybe a
+mapLookup = Map.lookup
+
+mapSingleton = Map.singleton
+
+mapSize = Map.size
+
+mapToList = Map.toList
+
+mapUnionsWith :: (Foldable f, Ord k) => (a -> a -> a) -> f (Map.Map k a) -> Map.Map k a
+mapUnionsWith = Map.unionsWith
 
 median xs =
     let n = length xs
      in head (drop (n `div` 2) (sort xs))
 
--- Paterson always used irrefutable patterns for tuples. Why?
-assoc ((a, b), c) = (a, (b, c))
+pars = splitOn "\n\n"
+prod2 (a, b) = product [a, b]
 
-unassoc (a, (b, c)) = ((a, b), c)
+range x y = if x > y then reverse [y .. x] else [x .. y]
+
+setEmpty = Set.empty
 
 setFromList :: Ord a => [a] -> Set a
 setFromList = Set.fromList
 
-setEmpty = Set.empty
+setMap :: Ord k => (a -> k) -> Set a -> Set k
+setMap = Set.map
+
+setMember :: Ord k => k -> Set k -> Bool
+setMember = Set.member
+
+setPartition = Set.partition
 
 setSingleton = Set.singleton
+
+setSize = Set.size
+setUnion :: Ord k => Set k -> Set k -> Set k
+setUnion = Set.union
+
+sum2 (a, b) = sum [a, b]
+sum3 (a, b, c) = sum [a, b, c]
+
+unassoc (a, (b, c)) = ((a, b), c)
+
+unpars = intercalate "\n\n"
