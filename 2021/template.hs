@@ -8,7 +8,7 @@
 import Tropes
 
 ex1, dat :: String
-ex1 = ""
+ex1 = unsafePerformIO (readFile "dayXXX-ex1.txt")
 dat = unsafePerformIO (readFile "dayXXX.txt")
 
 ans1 :: _
