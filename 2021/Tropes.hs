@@ -67,6 +67,9 @@ mapUnionsWith = Map.unionsWith
 mapUnionWith :: Ord k => (a -> a -> a) -> Map.Map k a -> Map.Map k a -> Map.Map k a
 mapUnionWith = Map.unionWith
 
+mapUnions :: Ord k => [Map.Map k a] -> Map.Map k a
+mapUnions = Map.unions
+
 median xs =
     let n = length xs
      in head (drop (n `div` 2) (sort xs))
