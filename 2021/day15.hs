@@ -10,6 +10,8 @@ import Tropes
 
 import qualified Data.HashPSQ as HashPQ
 
+import qualified Data.Map as Map
+
 ex1, dat :: String
 ex1 = unsafePerformIO (readFile "day15-ex1.txt")
 dat = unsafePerformIO (readFile "day15.txt")
@@ -49,12 +51,12 @@ mkV w = V w maxBound
 -- visit v = v { visited = True }
 score s v = v{vscore = D (Just s)}
 
-mkG :: Coord -> String -> G
-mkG start s =
+mkG :: String -> G
+mkG s =
     let ys = lines s
         as = concat $ zipWith (\y -> zipWith (\x e -> ((x, y), read (e : []))) [0 ..]) [0 ..] ys
         vs = map (second mkV) as
-     in G (mapAdjust (score 0) start (mapFromList vs)) (length ys)
+     in G (mapFromList vs)  (length ys)
 
 data St = St
     { stg :: G
@@ -65,7 +67,8 @@ data St = St
 
 mkSt :: String -> St
 mkSt s =
-    let g = mkG (0, 0) s
+    let g1 = mkG s
+        g = g1 { gg = mapAdjust (score 0) (0,0) (gg g1) }
         addP k v = (k, v, v)
      in St g (HashPQ.fromList (map (uncurry addP) (mapToList (gg g)))) (gsz g - 1, gsz g - 1)
 
@@ -105,7 +108,7 @@ procN this (n, neigh) =
         pingQ Nothing = ((), Nothing)
         pingQ (Just _) = ((), Just (newNeigh, newNeigh))
      in do
-            modify (insertSt n neigh{vscore = min newScore oldScore})
+            modify (insertSt n newNeigh)
             modify (\st -> st{unvisited = snd (HashPQ.alter pingQ n (unvisited st))})
 
 -- O(|unv| * log |g| + 4*log |g| + 4*log |g| + log |unv|)
@@ -115,6 +118,8 @@ procN this (n, neigh) =
 step :: State St _
 step = do
     ((c, this), target) <- gets (leastV &&& target)
+    u <- gets unvisited
+    -- traceM ("Target is " <> show c <> ", score is " <> show (vscore this) <> ", unvisited ct is " <> show (HashPQ.size u))
     if c == target
         then pure this
         else do
@@ -127,8 +132,44 @@ step = do
 ans1 :: Int
 ans1 = fromJust . unD . vscore $ evalState step (mkSt dat)
 
+dup' f gsz n gg
+    = Map.map
+    (\v -> v { vweight = ((vweight v + n - 1) `mod` 9 ) + 1 })
+    $ Map.mapKeys (f (+ (n * gsz))) gg
+
+dupX = dup' first
+dupY = dup' second
+
+dupGN n G { gg, gsz } =
+    let xs = zipWith (dupX gsz) [0..n-1] (repeat gg)
+        ys = foldMap (zipWith (dupY gsz) [0..n-1] . repeat) xs
+    in G (mconcat ys) (gsz * n)
+    
+    
+mkStN :: Int -> String -> St
+mkStN n s =
+    let g1 = dupGN n (mkG s)
+        g = g1 { gg = mapAdjust (score 0) (0,0) (gg g1) }
+        addP k v = (k, v, v)
+     in St g (HashPQ.fromList (map (uncurry addP) (mapToList (gg g)))) (gsz g - 1, gsz g - 1)
+
+prettyG G { gg, gsz } =
+    unlines
+    $ map (\y ->  foldMap (\x -> show (vweight (gg ! (x, y)))) [0..gsz-1]) [0..gsz-1]
+    <> ["Sz: " <> show gsz]
+
+prettyGScore G { gg, gsz } =
+    unlines
+    $ map (\y ->  foldMap (\x -> prettyD (vscore (gg ! (x, y)))) [0..gsz-1]) [0..gsz-1]
+
+prettyD (D Nothing) = " "
+prettyD (D (Just x)) = show x
+
+printG = putStr . prettyG
+printGScore = putStr . prettyGScore
+
 ans2 :: Int
-ans2 = undefined
+ans2 = fromJust . unD . vscore $ evalState step (mkStN 5 dat)
 
 -- ghcid needs this?
-main = print ans1
+main = print ans2
