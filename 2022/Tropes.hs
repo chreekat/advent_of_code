@@ -1,4 +1,4 @@
-module Tropes (traceM, pTraceM, pTraceShowM, catMaybes, Map.keysSet, zipWithM, evalState, get, coerce, Max (..), isUpper, Set, Sum (..), replicateM, replicateM_, execState, second, runState, (<=<), traverse_, gets, State (..), modify, mapMaybe, NE.NonEmpty (..), nub, toList, first, (Map.!), Map.mapWithKey, join, Comonad (..), Map.keys, fromJust, findIndices, findIndex, sortBy, (\\), minimumBy, genericLength, Map.fromListWith, Map.mapKeysWith, Map.Map, iterate', group, (&&&), pTraceShowId, on, sort, fromMaybe, partition, intersect, isJust, isNothing, Last (..), pTraceShow, First (..), pPrint, All (..), intercalate, splitOn, traceShow, traceShowId, foldl', transpose, unsafePerformIO, elemIndex, module Tropes) where
+module Tropes (chunksOf, traceM, pTraceM, pTraceShowM, catMaybes, Map.keysSet, zipWithM, evalState, get, coerce, Max (..), isUpper, Set, Sum (..), replicateM, replicateM_, execState, second, runState, (<=<), traverse_, gets, State (..), modify, mapMaybe, NE.NonEmpty (..), nub, toList, first, (Map.!), Map.mapWithKey, join, Comonad (..), Map.keys, fromJust, findIndices, findIndex, sortBy, (\\), minimumBy, genericLength, Map.fromListWith, Map.mapKeysWith, Map.Map, iterate', group, (&&&), pTraceShowId, on, sort, fromMaybe, partition, intersect, isJust, isNothing, Last (..), pTraceShow, First (..), pPrint, All (..), intercalate, splitOn, traceShow, traceShowId, foldl', transpose, unsafePerformIO, elemIndex, module Tropes) where
 
 import Control.Arrow
 import Control.Comonad
@@ -109,3 +109,6 @@ mapKeysSet = Map.keysSet
 
 setDelete :: Ord a => a -> Set a -> Set a
 setDelete = Set.delete
+
+intersects :: (Foldable f, Eq a) => f [a] -> [a]
+intersects = foldr1 intersect

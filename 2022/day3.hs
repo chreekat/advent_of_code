@@ -33,8 +33,14 @@ ans1
     . map (score . shared)
     . lines
 
+
 ans2 :: _
-ans2 = undefined
+ans2
+    = sum
+    . map (score . head . intersects)
+    . chunksOf 3
+    . map nub
+    . lines
 
 -- ghcid needs this?
 main = undefined
