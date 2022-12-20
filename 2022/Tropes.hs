@@ -21,6 +21,8 @@ import Data.Set (Set)
 import qualified Data.Set as Set
 import System.IO.Unsafe
 import Text.Pretty.Simple
+import qualified Data.Vector as Vec
+import Data.Vector (Vector)
 
 import Debug.Pretty.Simple
 import Debug.Trace
@@ -112,3 +114,7 @@ setDelete = Set.delete
 
 intersects :: (Foldable f, Eq a) => f [a] -> [a]
 intersects = foldr1 intersect
+
+vecUpdate = (Vec.//)
+veci = (Vec.!)
+vecFromList = Vec.fromList

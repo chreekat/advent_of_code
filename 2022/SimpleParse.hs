@@ -27,3 +27,4 @@ lexx = L.lexeme spaceConsumer
 integer = lexx L.decimal
 signedInt :: Parser Int
 signedInt = L.signed spaceConsumer integer
+sym = L.symbol spaceConsumer
