@@ -11,7 +11,7 @@ if [ ! -e ${name}.hs ]; then
 else
     >&2 echo "${name}.hs already exists"
 fi
-if [ ! -e ${name}.txt ]; then
+if false && [ ! -e ${name}.txt ]; then
     aocd $num > ${name}.txt
 else
     >&2 echo "${name}.txt already exists"

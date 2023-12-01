@@ -1,4 +1,4 @@
-module Tropes (chunksOf, traceM, pTraceM, pTraceShowM, catMaybes, Map.keysSet, zipWithM, evalState, get, coerce, Max (..), isUpper, Set, Sum (..), replicateM, replicateM_, execState, second, runState, (<=<), traverse_, gets, State (..), modify, mapMaybe, NE.NonEmpty (..), nub, toList, first, (Map.!), Map.mapWithKey, join, Comonad (..), Map.keys, fromJust, findIndices, findIndex, sortBy, (\\), minimumBy, genericLength, Map.fromListWith, Map.mapKeysWith, Map.Map, iterate', group, (&&&), pTraceShowId, on, sort, fromMaybe, partition, intersect, isJust, isNothing, Last (..), pTraceShow, First (..), pPrint, All (..), intercalate, splitOn, traceShow, traceShowId, foldl', transpose, unsafePerformIO, elemIndex, module Tropes) where
+module Tropes (chunksOf, traceM, pTraceM, pTraceShowM, catMaybes, Map.keysSet, zipWithM, evalState, get, coerce, Max (..), isDigit, isUpper, Set, Sum (..), replicateM, replicateM_, execState, second, runState, (<=<), traverse_, gets, State (..), modify, mapMaybe, NE.NonEmpty (..), nub, toList, first, (Map.!), Map.mapWithKey, join, Comonad (..), Map.keys, fromJust, findIndices, findIndex, sortBy, (\\), minimumBy, genericLength, Map.fromListWith, Map.mapKeysWith, Map.Map, iterate', group, (&&&), pTraceShowId, on, sort, fromMaybe, partition, intersect, isJust, isNothing, Last (..), pTraceShow, First (..), pPrint, All (..), intercalate, splitOn, traceShow, traceShowId, foldl', transpose, unsafePerformIO, elemIndex, module Tropes) where
 
 import Control.Arrow
 import Control.Comonad
@@ -16,7 +16,8 @@ import Data.List.Split
 import Data.Map (Map)
 import qualified Data.Map as Map
 import Data.Maybe
-import Data.Semigroup
+import Data.Monoid (First (..), Last (..))
+import Data.Semigroup hiding (First, Last)
 import Data.Set (Set)
 import qualified Data.Set as Set
 import System.IO.Unsafe
