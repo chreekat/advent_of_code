@@ -1,3 +1,5 @@
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Use camelCase" #-}
 module SimpleParse (module X, module SimpleParse, L.decimal, L.hexadecimal) where
 
 import Data.Maybe
