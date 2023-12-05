@@ -8,6 +8,11 @@
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 {-# HLINT ignore "Unused LANGUAGE pragma" #-}
 {-# OPTIONS_GHC -Wno-partial-type-signatures #-}
+{-# HLINT ignore "Use tuple-section" #-}
+{-# HLINT ignore "Redundant map" #-}
+{-# OPTIONS_GHC -Wno-deprecations #-}
+{-# HLINT ignore "Move brackets to avoid $" #-}
+{-# HLINT ignore "Use infix" #-}
 
 import Tropes
 
