@@ -28,5 +28,4 @@ ans1 = undefined
 ans2 :: _
 ans2 = undefined
 
--- ghcid needs this?
-main = undefined
+main = print ans1

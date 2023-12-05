@@ -40,8 +40,6 @@ ans1 = sum $ map (score . parse' pCard) (lines dat)
 
 initList = vecFromList $ map ((\(c,w,h) -> (1,w,h)) . parse' pCard) $ lines dat
 
-map31 f (a,b,c) = (f a, b, c)
-
 score2 v i =
     let (n, w, h) = veci v i
         m = length (intersect w h)
