@@ -23,7 +23,7 @@ ex1 = unsafePerformIO (readFile "XXX-ex1.txt")
 dat = unsafePerformIO (readFile "XXX.txt")
 
 ans1 :: _
-ans1 = undefined
+ans1 = ex1
 
 ans2 :: _
 ans2 = undefined
