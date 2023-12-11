@@ -2,6 +2,6 @@
 
 set -Eeuo pipefail
 
-: ${num:=$(date +%-1d)}
+: ${num:=${1:-(date +%-1d)}}
 
 xclip -selection clipboard -o > day${num}.txt

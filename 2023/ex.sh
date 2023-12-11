@@ -2,7 +2,7 @@
 
 set -Eeuo pipefail
 
-: ${num:=$(date +%-1d)}
+: ${num:=${1:-$(date +%-1d)}}
 
 numex=$(($(find . -name "day${num}-ex*" | wc -l) + 1))
 

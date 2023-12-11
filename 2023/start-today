@@ -2,7 +2,7 @@
 set -e
 
 
-: ${num:=$(date +%-1d)}
+: ${num:=${1:-$(date +%-1d)}}
 name=day${num}
 
 if [ ! -e ${name}.hs ]; then
