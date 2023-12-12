@@ -5,6 +5,8 @@ import Control.Comonad
 import Control.Monad
 import Control.Monad.State
 import Control.Monad.Writer hiding (First, Last)
+import Data.Array (Array)
+import qualified Data.Array as Array
 import Data.Bool
 import Data.Char
 import Data.Coerce
@@ -33,6 +35,13 @@ import Debug.Trace
 _3to2 (a, b, c) = (a, b)
 
 assoc ((a, b), c) = (a, (b, c))
+
+from2d :: String -> Array (Int, Int) Char
+from2d s =
+    let ls = lines s
+        h = length ls
+        w = length (head ls)
+     in Array.listArray ((0, 0), (h - 1, w - 1)) (concat ls)
 
 avg :: Fractional a => [a] -> a
 avg xs = sum xs / genericLength xs
