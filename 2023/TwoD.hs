@@ -20,3 +20,11 @@ showTwoD f g =
             [ [ f (g Array.! (x, y)) | y <- [y1 .. y2] ]
             | x <- [x1 .. x2]
             ]
+
+-- | filter the list of indices to those that are in the bounds of the array
+filterBounds :: Array (Int, Int) a -> [(Int, Int)] -> [(Int, Int)]
+filterBounds a = filter (Array.inRange (Array.bounds a))
+
+listOfListOfIndices a = [[(x, y) | y <- [y1 .. y2]] | x <- [x1 .. x2]]
+  where
+    ((x1, y1), (x2, y2)) = Array.bounds a

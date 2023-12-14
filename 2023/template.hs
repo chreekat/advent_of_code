@@ -1,18 +1,19 @@
+{-# HLINT ignore "Move brackets to avoid $" #-}
+{-# HLINT ignore "Redundant map" #-}
+{-# HLINT ignore "Unused LANGUAGE pragma" #-}
+{-# HLINT ignore "Use infix" #-}
+{-# HLINT ignore "Use tuple-section" #-}
 {-# LANGUAGE DeriveFunctor #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE PartialTypeSignatures #-}
 {-# LANGUAGE TupleSections #-}
 {-# LANGUAGE ViewPatterns #-}
-{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
-{-# HLINT ignore "Unused LANGUAGE pragma" #-}
-{-# OPTIONS_GHC -Wno-partial-type-signatures #-}
-{-# HLINT ignore "Use tuple-section" #-}
-{-# HLINT ignore "Redundant map" #-}
 {-# OPTIONS_GHC -Wno-deprecations #-}
-{-# HLINT ignore "Move brackets to avoid $" #-}
-{-# HLINT ignore "Use infix" #-}
+{-# OPTIONS_GHC -Wno-partial-type-signatures #-}
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 
 import Tropes
 
