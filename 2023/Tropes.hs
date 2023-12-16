@@ -33,6 +33,7 @@ import Data.Bits
 -- Paterson always used irrefutable patterns for tuples. Why?
 _3to2 (a, b, c) = (a, b)
 _2of3 (_, b, _) = b
+_3of3 (_, _, c) = c
 
 -- @toBits id [True, True, False] = 6@
 toBits :: Bits bits => (a -> Bool) -> [a] -> bits
