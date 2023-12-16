@@ -1,0 +1,106 @@
+	Fri Dec 15 11:33 2023 Time and Allocation Profiling Report  (Final)
+
+	   today +RTS -p -M4G -RTS
+
+	total time  =        7.84 secs   (7844 ticks @ 1000 us, 1 processor)
+	total alloc = 3,534,440,560 bytes  (excludes profiling overheads)
+
+COST CENTRE         MODULE    SRC                        %time %alloc
+
+solns.subsolns      Main      today.hs:83:9-98            51.9   30.7
+suitable            Main      today.hs:(56,1)-(61,21)     27.7   35.2
+solutionsForThisKey Main      today.hs:(108,1)-(145,41)   14.0    9.9
+showMap             Main      today.hs:(50,1)-(53,15)      3.3   19.6
+suitable.f          Main      today.hs:(58,9)-(61,21)      2.1    0.0
+allKeys             Main      today.hs:93:1-64             0.5    3.7
+
+
+                                                                                                                          individual      inherited
+COST CENTRE                MODULE                    SRC                                               no.     entries  %time %alloc   %time %alloc
+
+MAIN                       MAIN                      <built-in>                                        192           0    0.0    0.0   100.0  100.0
+ CAF                       Main                      <entire-module>                                   382           0    0.0    0.0   100.0  100.0
+  ans2                     Main                      today.hs:(148,1)-(150,32)                         385           1    0.0    0.0   100.0  100.0
+   soln                    Main                      today.hs:88:1-32                                  392        1000    0.0    0.0    99.6   99.2
+    solns                  Main                      today.hs:(82,1)-(84,15)                           393        1000    0.0    0.0    99.5   99.2
+     solns.subsolns        Main                      today.hs:83:9-98                                  394        1000   51.9   30.7    99.5   99.2
+      solutionsForThisKey  Main                      today.hs:(108,1)-(145,41)                         396     1444280   14.0    9.9    47.1   64.7
+       showMap             Main                      today.hs:(50,1)-(53,15)                           453     6492208    3.3   19.6     3.3   19.6
+       suitable            Main                      today.hs:(56,1)-(61,21)                           452     5109718   27.7   35.2    29.9   35.2
+        suitable.f         Main                      today.hs:(58,9)-(61,21)                           456    12944325    2.1    0.0     2.1    0.0
+       solves              Main                      today.hs:97:1-26                                  457     1444280    0.0    0.0     0.0    0.0
+      allKeys              Main                      today.hs:93:1-64                                  395        1000    0.5    3.7     0.5    3.7
+   ans2.is                 Main                      today.hs:149:9-32                                 387           1    0.0    0.0     0.4    0.8
+    unfoldRow              Main                      today.hs:75:1-68                                  390        1000    0.0    0.0     0.1    0.2
+     unfoldMap             Main                      today.hs:74:1-41                                  450           0    0.0    0.1     0.0    0.1
+    input                  Main                      today.hs:67:1-30                                  388           1    0.0    0.1     0.4    0.6
+     pRow                  Main                      today.hs:(63,1)-(65,42)                           391        1000    0.2    0.3     0.3    0.5
+      pRow.(...)           Main                      today.hs:64:9-36                                  412        1000    0.0    0.0     0.1    0.1
+       splitOn             Data.List.Split.Internals src/Data/List/Split/Internals.hs:421:1-42         413        1000    0.0    0.0     0.1    0.1
+        onSublist          Data.List.Split.Internals src/Data/List/Split/Internals.hs:278:1-72         418        1000    0.0    0.0     0.0    0.0
+        split              Data.List.Split.Internals src/Data/List/Split/Internals.hs:249:1-68         414        1000    0.0    0.0     0.1    0.1
+         fromElem          Data.List.Split.Internals src/Data/List/Split/Internals.hs:(116,1)-(117,24) 437        2000    0.0    0.0     0.0    0.0
+         splitInternal     Data.List.Split.Internals src/Data/List/Split/Internals.hs:(139,1)-(148,70) 424        2000    0.0    0.0     0.0    0.1
+          breakDelim       Data.List.Split.Internals src/Data/List/Split/Internals.hs:(151,1)-(156,36) 425       22632    0.0    0.1     0.0    0.1
+           matchDelim      Data.List.Split.Internals src/Data/List/Split/Internals.hs:(73,1)-(77,23)   428       22632    0.0    0.0     0.0    0.0
+         delimiter         Data.List.Split.Internals src/Data/List/Split/Internals.hs:25:30-38         426        1000    0.0    0.0     0.0    0.0
+         postProcess       Data.List.Split.Internals src/Data/List/Split/Internals.hs:(163,1)-(168,45) 415        1000    0.0    0.0     0.1    0.0
+          condensePolicy   Data.List.Split.Internals src/Data/List/Split/Internals.hs:32:30-43         423        1000    0.0    0.0     0.0    0.0
+          delimPolicy      Data.List.Split.Internals src/Data/List/Split/Internals.hs:27:30-40         417        1000    0.0    0.0     0.0    0.0
+          doCondense       Data.List.Split.Internals src/Data/List/Split/Internals.hs:(178,1)-(183,20) 422        1000    0.0    0.0     0.0    0.0
+          doDrop           Data.List.Split.Internals src/Data/List/Split/Internals.hs:(172,1)-(173,14) 431        1000    0.0    0.0     0.0    0.0
+          doMerge          Data.List.Split.Internals src/Data/List/Split/Internals.hs:(205,1)-(207,14) 416        1000    0.0    0.0     0.0    0.0
+          dropFinal        Data.List.Split.Internals src/Data/List/Split/Internals.hs:(236,1)-(241,26) 434        1000    0.0    0.0     0.0    0.0
+          dropInitial      Data.List.Split.Internals src/Data/List/Split/Internals.hs:(231,1)-(232,19) 432        1000    0.0    0.0     0.0    0.0
+          finalBlankPolicy Data.List.Split.Internals src/Data/List/Split/Internals.hs:37:30-45         435        1000    0.0    0.0     0.0    0.0
+          initBlankPolicy  Data.List.Split.Internals src/Data/List/Split/Internals.hs:35:30-44         433        1000    0.0    0.0     0.0    0.0
+          insertBlanks     Data.List.Split.Internals src/Data/List/Split/Internals.hs:(189,1)-(191,38) 429        1000    0.0    0.0     0.0    0.0
+           insertBlanks'   Data.List.Split.Internals src/Data/List/Split/Internals.hs:(195,1)-(201,49) 430        4000    0.0    0.0     0.0    0.0
+      pRow.mmap            Main                      today.hs:64:9-36                                  451        1000    0.0    0.0     0.0    0.0
+      pRow.nums            Main                      today.hs:64:9-36                                  411        1000    0.0    0.0     0.0    0.0
+      splitOn              Data.List.Split.Internals src/Data/List/Split/Internals.hs:421:1-42         397        1000    0.0    0.0     0.1    0.1
+       onSublist           Data.List.Split.Internals src/Data/List/Split/Internals.hs:278:1-72         402        1000    0.0    0.0     0.0    0.0
+       split               Data.List.Split.Internals src/Data/List/Split/Internals.hs:249:1-68         398        1000    0.0    0.0     0.1    0.1
+        fromElem           Data.List.Split.Internals src/Data/List/Split/Internals.hs:(116,1)-(117,24) 454        3326    0.0    0.0     0.0    0.0
+        splitInternal      Data.List.Split.Internals src/Data/List/Split/Internals.hs:(139,1)-(148,70) 410        3326    0.0    0.0     0.0    0.0
+         breakDelim        Data.List.Split.Internals src/Data/List/Split/Internals.hs:(151,1)-(156,36) 438        6721    0.0    0.0     0.0    0.0
+          matchDelim       Data.List.Split.Internals src/Data/List/Split/Internals.hs:(73,1)-(77,23)   441        8047    0.0    0.0     0.0    0.0
+        delimiter          Data.List.Split.Internals src/Data/List/Split/Internals.hs:25:30-38         439        1000    0.0    0.0     0.0    0.0
+        postProcess        Data.List.Split.Internals src/Data/List/Split/Internals.hs:(163,1)-(168,45) 399        1000    0.0    0.0     0.1    0.0
+         condensePolicy    Data.List.Split.Internals src/Data/List/Split/Internals.hs:32:30-43         409        1000    0.0    0.0     0.0    0.0
+         delimPolicy       Data.List.Split.Internals src/Data/List/Split/Internals.hs:27:30-40         401        1000    0.0    0.0     0.0    0.0
+         doCondense        Data.List.Split.Internals src/Data/List/Split/Internals.hs:(178,1)-(183,20) 408        1000    0.0    0.0     0.0    0.0
+         doDrop            Data.List.Split.Internals src/Data/List/Split/Internals.hs:(172,1)-(173,14) 444        1000    0.0    0.0     0.0    0.0
+         doMerge           Data.List.Split.Internals src/Data/List/Split/Internals.hs:(205,1)-(207,14) 400        1000    0.0    0.0     0.0    0.0
+         dropFinal         Data.List.Split.Internals src/Data/List/Split/Internals.hs:(236,1)-(241,26) 447        1000    0.0    0.0     0.0    0.0
+         dropInitial       Data.List.Split.Internals src/Data/List/Split/Internals.hs:(231,1)-(232,19) 445        1000    0.0    0.0     0.0    0.0
+         finalBlankPolicy  Data.List.Split.Internals src/Data/List/Split/Internals.hs:37:30-45         448        1000    0.0    0.0     0.0    0.0
+         initBlankPolicy   Data.List.Split.Internals src/Data/List/Split/Internals.hs:35:30-44         446        1000    0.0    0.0     0.0    0.0
+         insertBlanks      Data.List.Split.Internals src/Data/List/Split/Internals.hs:(189,1)-(191,38) 442        1000    0.0    0.0     0.0    0.0
+          insertBlanks'    Data.List.Split.Internals src/Data/List/Split/Internals.hs:(195,1)-(201,49) 443        6652    0.0    0.0     0.0    0.0
+  dat                      Main                      today.hs:28:1-44                                  389           1    0.0    0.0     0.0    0.0
+  main                     Main                      today.hs:152:1-11                                 384           1    0.0    0.0     0.0    0.0
+  unfoldMap                Main                      today.hs:74:1-41                                  449           1    0.0    0.0     0.0    0.0
+  input                    Main                      today.hs:67:1-30                                  403           0    0.0    0.0     0.0    0.0
+   pRow                    Main                      today.hs:(63,1)-(65,42)                           404           0    0.0    0.0     0.0    0.0
+    pRow.(...)             Main                      today.hs:64:9-36                                  419           0    0.0    0.0     0.0    0.0
+     splitOn               Data.List.Split.Internals src/Data/List/Split/Internals.hs:421:1-42         420           0    0.0    0.0     0.0    0.0
+      dropDelims           Data.List.Split.Internals src/Data/List/Split/Internals.hs:295:1-39         421           1    0.0    0.0     0.0    0.0
+      onSublist            Data.List.Split.Internals src/Data/List/Split/Internals.hs:278:1-72         427           0    0.0    0.0     0.0    0.0
+    splitOn                Data.List.Split.Internals src/Data/List/Split/Internals.hs:421:1-42         405           0    0.0    0.0     0.0    0.0
+     dropDelims            Data.List.Split.Internals src/Data/List/Split/Internals.hs:295:1-39         407           1    0.0    0.0     0.0    0.0
+     onSublist             Data.List.Split.Internals src/Data/List/Split/Internals.hs:278:1-72         440           0    0.0    0.0     0.0    0.0
+ CAF                       Data.List.Split.Internals <entire-module>                                   369           0    0.0    0.0     0.0    0.0
+  defaultSplitter          Data.List.Split.Internals src/Data/List/Split/Internals.hs:(58,1)-(63,28)   406           1    0.0    0.0     0.0    0.0
+ CAF                       GHC.Conc.Signal           <entire-module>                                   313           0    0.0    0.0     0.0    0.0
+ CAF                       GHC.IO.Encoding           <entire-module>                                   297           0    0.0    0.0     0.0    0.0
+ CAF                       GHC.IO.Encoding.Iconv     <entire-module>                                   295           0    0.0    0.0     0.0    0.0
+ CAF                       GHC.IO.Exception          <entire-module>                                   289           0    0.0    0.0     0.0    0.0
+ CAF                       GHC.IO.Handle.FD          <entire-module>                                   287           0    0.0    0.0     0.0    0.0
+ CAF                       GHC.IO.Handle.Internals   <entire-module>                                   286           0    0.0    0.0     0.0    0.0
+ CAF                       GHC.IO.Handle.Text        <entire-module>                                   285           0    0.0    0.0     0.0    0.0
+ CAF                       GHC.Read                  <entire-module>                                   271           0    0.0    0.0     0.0    0.0
+ CAF                       GHC.Event.Thread          <entire-module>                                   242           0    0.0    0.0     0.0    0.0
+ CAF                       GHC.IO.FD                 <entire-module>                                   224           0    0.0    0.0     0.0    0.0
+ CAF                       GHC.Event.Poll            <entire-module>                                   214           0    0.0    0.0     0.0    0.0
+ ans2                      Main                      today.hs:(148,1)-(150,32)                         386           0    0.0    0.0     0.0    0.0

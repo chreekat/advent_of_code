@@ -1,4 +1,4 @@
-module Tropes (chunksOf, traceM, pTraceM, pTraceShowM, catMaybes, Map.keysSet, zipWithM, evalState, get, coerce, Max (..), isAlpha, isSymbol, isDigit, isUpper, Set, Sum (..), replicateM, replicateM_, execState, second, runState, (<=<), traverse_, gets, State (..), modify, mapMaybe, NE.NonEmpty (..), nub, toList, first, (Map.!), Map.mapWithKey, join, Comonad (..), Map.keys, fromJust, findIndices, findIndex, comparing, sortBy, (\\), minimumBy, genericLength, Map.fromListWith, Map.mapKeysWith, Map.Map, iterate', group, (&&&), pTraceShowId, on, sort, fromMaybe, partition, intersect, isJust, isNothing, Last (..), pTraceShow, First (..), pPrint, All (..), intercalate, splitOn, traceShow, traceShowId, foldl', transpose, unsafePerformIO, elemIndex, module Tropes, Vec.ifoldl', Vec.slice) where
+module Tropes (chunksOf, traceM, pTraceM, pTraceShowM, catMaybes, Map.keysSet, zipWithM, evalState, get, coerce, Max (..), isAlpha, isSymbol, isDigit, isUpper, Set, Sum (..), replicateM, replicateM_, execState, second, runState, (<=<), traverse_, gets, State (..), modify, mapMaybe, NE.NonEmpty (..), nub, toList, first, (Map.!), Map.mapWithKey, join, Comonad (..), Map.keys, fromJust, findIndices, findIndex, comparing, sortBy, (\\), minimumBy, genericLength, Map.fromListWith, Map.mapKeysWith, Map.Map, iterate', group, (***), (&&&), pTraceShowId, on, sort, fromMaybe, partition, intersect, isJust, isNothing, Last (..), pTraceShow, First (..), pPrint, All (..), intercalate, splitOn, traceShow, traceShowId, foldl', transpose, unsafePerformIO, elemIndex, module Tropes, Vec.ifoldl', Vec.slice) where
 
 import Control.Arrow
 import Control.Comonad
@@ -28,10 +28,24 @@ import Data.Vector (Vector)
 
 import Debug.Pretty.Simple
 import Debug.Trace
+import Data.Bits
 
 -- Paterson always used irrefutable patterns for tuples. Why?
 _3to2 (a, b, c) = (a, b)
 _2of3 (_, b, _) = b
+
+-- @toBits id [True, True, False] = 6@
+toBits :: Bits bits => (a -> Bool) -> [a] -> bits
+toBits f = foldr (\(x, a) bits -> if f a then setBit bits x else bits) zeroBits . reverse . zip [0 ..] . reverse
+
+fromBits :: FiniteBits bits => (Bool -> a) -> Int -> bits -> [a]
+fromBits toA len b = pushBit (0, [])
+    where
+        pushBit (n, as) | n < len = pushBit (succ n, toA (testBit b n) : as)
+                        | otherwise = as
+
+hammingDistance :: Bits b => b -> b -> Int
+hammingDistance x = popCount . xor x
 
 assoc ((a, b), c) = (a, (b, c))
 
