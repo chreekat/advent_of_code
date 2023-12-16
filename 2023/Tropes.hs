@@ -72,6 +72,9 @@ mapFromList = Map.fromList
 mapInsert :: Ord k => k -> a -> Map k a -> Map k a
 mapInsert = Map.insert
 
+mapInsertMany :: Ord k => Map k a -> [(k, a)] -> Map k a
+mapInsertMany = foldr (uncurry Map.insert)
+
 mapLookup :: Ord k => k -> Map k a -> Maybe a
 mapLookup = Map.lookup
 

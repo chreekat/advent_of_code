@@ -3,3 +3,4 @@ errors.err
 .venv
 today.hs
 today
+*.prof
