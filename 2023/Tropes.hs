@@ -32,6 +32,7 @@ import Data.Bits
 
 -- Paterson always used irrefutable patterns for tuples. Why?
 _3to2 (a, b, c) = (a, b)
+_1of3 (a, _, _) = a
 _2of3 (_, b, _) = b
 _3of3 (_, _, c) = c
 

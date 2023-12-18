@@ -17,11 +17,21 @@ twoD' f s =
 
 twoD = twoD' id
 
-showTwoD :: (a -> Char) -> TwoD a -> String
-showTwoD f g =
+showTwoD = showTwoD' id
+
+showTwoD' :: (a -> Char) -> TwoD a -> String
+showTwoD' f g =
     let ((x1, y1), (x2, y2)) = Array.bounds g
      in unlines
             [ [ f (g Array.! (x, y)) | y <- [y1 .. y2] ]
+            | x <- [x1 .. x2]
+            ]
+
+showTwoD'' :: (a -> String) -> TwoD a -> String
+showTwoD'' f g =
+    let ((x1, y1), (x2, y2)) = Array.bounds g
+     in unlines
+            [ concat [ f (g Array.! (x, y)) | y <- [y1 .. y2] ]
             | x <- [x1 .. x2]
             ]
 
@@ -59,3 +69,12 @@ insertCol' a b c = fromJust $ insertCol a b c
 
 distance :: (Int, Int) -> (Int, Int) -> Int
 distance (x1, y1) (x2, y2) = abs (x2 - x1) + abs (y2 - y1)
+
+neighbors :: TwoD a -> (Int, Int) -> [(Int, Int)]
+neighbors g (x, y) =
+    filterBounds g
+        [ (x + 1, y)
+        , (x - 1, y)
+        , (x, y + 1)
+        , (x, y - 1)
+        ]
