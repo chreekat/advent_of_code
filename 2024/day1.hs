@@ -11,33 +11,31 @@
 {-# LANGUAGE PartialTypeSignatures #-}
 {-# LANGUAGE TupleSections #-}
 {-# LANGUAGE ViewPatterns #-}
+{-# LANGUAGE ImportQualifiedPost #-}
 {-# OPTIONS_GHC -Wno-deprecations #-}
 {-# OPTIONS_GHC -Wno-partial-type-signatures #-}
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
-{-# OPTIONS_GHC -Wno-missing-signatures #-}
-{-# OPTIONS_GHC -Wno-unused-imports #-}
 
-import Array qualified
-import Data.List qualified as List
+import Tropes
+import SimpleParse
 import Data.Map qualified as Map
-import Data.Maybe qualified as Maybe
-import Data.Sequence qualified as Seq
-import Data.Vector qualified as Vector
-import TwoD qualified
-import Tropes hiding (traceShow, traceShowId)
-import Tropes qualified
-import HMap qualified
 
 ex1, dat :: String
 {-# NOINLINE ex1 #-}
-ex1 = unsafePerformIO (readFile "XXX-ex1.txt")
+ex1 = unsafePerformIO (readFile "day1-ex1.txt")
 {-# NOINLINE dat #-}
-dat = unsafePerformIO (readFile "XXX.txt")
+dat = unsafePerformIO (readFile "day1.txt")
 
 ans1 :: _
-ans1 = ex1
+ans1 = 
+    let [a, b] = map sort $ transpose $ map (map read . words) $ lines dat
+    in sum $ zipWith (\x -> abs . (x -)) a b
 
 ans2 :: _
-ans2 = undefined
+ans2 = 
+    let [a, b] :: [[Int]] = map sort $ transpose $ map (map read . words) $ lines dat
+        counts = foldr (Map.alter (Just . maybe 1 (+1))) Map.empty b
+        total = foldr (\a c -> c + a * fromMaybe 0 (Map.lookup a counts)) 0 a
+    in total
 
-main = print ans1
+main = print ans2

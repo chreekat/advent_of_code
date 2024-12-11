@@ -1,5 +1,6 @@
-module Tropes (chunksOf, traceM, pTraceM, pTraceShowM, catMaybes, Map.keysSet, zipWithM, evalState, get, coerce, Max (..), isAlpha, isSymbol, isDigit, isUpper, Set, Sum (..), replicateM, replicateM_, execState, second, runState, (<=<), traverse_, gets, State (..), modify, mapMaybe, NE.NonEmpty (..), nub, toList, first, (Map.!), Map.mapWithKey, join, Comonad (..), Map.keys, fromJust, findIndices, findIndex, comparing, sortBy, (\\), minimumBy, genericLength, Map.fromListWith, Map.mapKeysWith, Map.Map, iterate', group, (***), (&&&), pTraceShowId, on, sort, fromMaybe, partition, intersect, isJust, isNothing, Last (..), pTraceShow, First (..), pPrint, All (..), intercalate, splitOn, traceShow, traceShowId, foldl', transpose, unsafePerformIO, elemIndex, module Tropes, Vec.ifoldl', Vec.slice) where
+module Tropes ((<|>), chunksOf, traceM, pTraceM, pTraceShowM, catMaybes, Map.keysSet, zipWithM, evalState, get, coerce, Max (..), isAlpha, isSymbol, isDigit, isUpper, Set, Sum (..), replicateM, replicateM_, execState, second, runState, (<=<), traverse_, gets, State (..), modify, mapMaybe, NE.NonEmpty (..), nub, toList, first, (Map.!), Map.mapWithKey, join, Comonad (..), Map.keys, fromJust, findIndices, findIndex, comparing, sortBy, (\\), minimumBy, genericLength, Map.fromListWith, Map.mapKeysWith, Map.Map, iterate', group, (***), (&&&), pTraceShowId, on, sort, fromMaybe, partition, intersect, isJust, isNothing, Last (..), pTraceShow, First (..), pPrint, All (..), intercalate, splitOn, traceShow, traceShowId, foldl', transpose, unsafePerformIO, elemIndex, module Tropes, Vec.ifoldl', Vec.slice) where
 
+import Control.Applicative
 import Control.Arrow
 import Control.Comonad
 import Control.Monad
@@ -35,6 +36,11 @@ _3to2 (a, b, c) = (a, b)
 _1of3 (a, _, _) = a
 _2of3 (_, b, _) = b
 _3of3 (_, _, c) = c
+
+_1of4 (a, _, _, _) = a
+_2of4 (_, b, _, _) = b
+_3of4 (_, _, c, _) = c
+_4of4 (_, _, _, d) = d
 
 -- @toBits id [True, True, False] = 6@
 toBits :: Bits bits => (a -> Bool) -> [a] -> bits

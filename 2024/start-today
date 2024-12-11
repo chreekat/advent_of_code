@@ -1,4 +1,6 @@
-#!/usr/bin/env bash
+#! /usr/bin/env nix-shell
+#! nix-shell -i bash -p aocd
+
 set -e
 
 
@@ -11,7 +13,7 @@ if [ ! -e ${name}.hs ]; then
 else
     >&2 echo "${name}.hs already exists"
 fi
-if false && [ ! -e ${name}.txt ]; then
+if [ ! -e ${name}.txt ]; then
     aocd $num > ${name}.txt
 else
     >&2 echo "${name}.txt already exists"

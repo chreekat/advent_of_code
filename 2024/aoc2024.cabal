@@ -1,0 +1,43 @@
+cabal-version:      3.4
+name:               aoc2024
+version:            0.1.0.0
+-- synopsis:
+-- description:
+license:            BSD-3-Clause
+license-file:       LICENSE
+author:             Bryan Richter
+maintainer:         b@chreekat.net
+-- copyright:
+category:           Fun
+build-type:         Simple
+extra-doc-files:    CHANGELOG.md
+-- extra-source-files:
+
+common warnings
+    ghc-options: -Wall
+
+executable aoc2024
+    import:           warnings
+    main-is:          day7.hs
+    other-modules:
+        Tropes
+        SimpleParse
+        TwoD
+        Array
+        Set
+        HMap
+    -- other-extensions:
+    build-depends:
+        base ^>=4.18.2.1,
+        array,
+        comonad,
+        containers,
+        megaparsec,
+        mtl,
+        pretty-simple,
+        split,
+        vector,
+        unordered-containers,
+    ghc-options: -threaded
+    hs-source-dirs:   .
+    default-language: GHC2021
