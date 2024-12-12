@@ -18,7 +18,7 @@ common warnings
 
 executable aoc2024
     import:           warnings
-    main-is:          day7.hs
+    main-is:          day8.hs
     other-modules:
         Tropes
         SimpleParse
@@ -38,6 +38,7 @@ executable aoc2024
         split,
         vector,
         unordered-containers,
+        combinatorial,
     ghc-options: -threaded
     hs-source-dirs:   .
     default-language: GHC2021

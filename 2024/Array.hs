@@ -19,3 +19,5 @@ find f = Maybe.listToMaybe . findAll f
 
 findAll :: Ix i => (e -> Bool) -> Array i e -> [i]
 findAll f a = [i | (i, e) <- assocs a, f e]
+
+inBounds g = inRange (bounds g)
