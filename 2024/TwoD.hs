@@ -4,7 +4,7 @@ import Data.Array (Array)
 import qualified Data.Array as Array
 import Control.Arrow
 import Data.Maybe
-import Tropes
+import Map qualified
 
 type TwoD a = Array (Int, Int) a
 
@@ -70,9 +70,19 @@ insertCol' a b c = fromJust $ insertCol a b c
 distance :: (Int, Int) -> (Int, Int) -> Int
 distance (x1, y1) (x2, y2) = abs (x2 - x1) + abs (y2 - y1)
 
-neighbors :: TwoD a -> (Int, Int) -> [(Int, Int)]
-neighbors g (x, y) =
+neighbors :: (Int,Int) -> TwoD a -> [(Int, Int)]
+neighbors (x, y) g =
     filterBounds g
+        [ (x + 1, y)
+        , (x - 1, y)
+        , (x, y + 1)
+        , (x, y - 1)
+        ]
+
+mapNeighbors (x,y) m =
+    let (max,_) = Map.findMax m
+        (min,_) = Map.findMin m
+    in filter (Array.inRange (min,max)) 
         [ (x + 1, y)
         , (x - 1, y)
         , (x, y + 1)
