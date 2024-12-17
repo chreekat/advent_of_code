@@ -9,7 +9,6 @@ name=day${num}
 
 if [ ! -e ${name}.hs ]; then
     sed < template.hs > ${name}.hs -e "s/XXX/${name}/g"
-    ln -sf ${name}.hs today.hs
 else
     >&2 echo "${name}.hs already exists"
 fi

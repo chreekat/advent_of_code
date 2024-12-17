@@ -16,15 +16,16 @@ extra-doc-files:    CHANGELOG.md
 common warnings
     ghc-options: -Wall
 
-executable aoc2024
+common all
     import:           warnings
-    main-is:          day8.hs
     other-modules:
         Tropes
         SimpleParse
         TwoD
         Array
         Set
+        Map
+        Seq
         HMap
     -- other-extensions:
     build-depends:
@@ -42,3 +43,79 @@ executable aoc2024
     ghc-options: -threaded
     hs-source-dirs:   .
     default-language: GHC2021
+
+executable day1
+    import: all
+    main-is:          day1.hs
+executable day2
+    import: all
+    main-is:          day2.hs
+executable day3
+    import: all
+    main-is:          day3.hs
+executable day4
+    import: all
+    main-is:          day4.hs
+executable day5
+    import: all
+    main-is:          day5.hs
+executable day6
+    import: all
+    main-is:          day6.hs
+executable day7
+    import: all
+    main-is:          day7.hs
+executable day8
+    import: all
+    main-is:          day8.hs
+executable day9
+    import: all
+    main-is:          day9.hs
+executable day10
+    import: all
+    main-is:          day10.hs
+executable day11
+    import: all
+    main-is:          day11.hs
+executable day12
+    import: all
+    main-is:          day12.hs
+executable day13
+    import: all
+    main-is:          day13.hs
+executable day14
+    import: all
+    main-is:          day14.hs
+executable day15
+    import: all
+    main-is:          day15.hs
+executable day16
+    import: all
+    main-is:          day16.hs
+executable day17
+    import: all
+    main-is:          day17.hs
+executable day18
+    import: all
+    main-is:          day18.hs
+executable day19
+    import: all
+    main-is:          day19.hs
+executable day20
+    import: all
+    main-is:          day20.hs
+executable day21
+    import: all
+    main-is:          day21.hs
+executable day22
+    import: all
+    main-is:          day22.hs
+executable day23
+    import: all
+    main-is:          day23.hs
+executable day24
+    import: all
+    main-is:          day24.hs
+executable day25
+    import: all
+    main-is:          day25.hs
