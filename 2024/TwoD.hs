@@ -52,7 +52,7 @@ insertRow x ys g | inGrid g (x,0) =
         bottom = Array.assocs $ Array.ixmap ((x+1,0), (x2+1, y2)) (first pred) g
         middlIndexes = [(x, j) | j <- [0 .. y2]]
     in Just $ Array.array ((0,0), (x2 + 1, y2)) (top ++ zip middlIndexes ys ++ bottom)
-    | otherwise = Nothing 
+    | otherwise = Nothing
 
 insertRow' a b c = fromJust $ insertRow a b c
 
@@ -79,10 +79,28 @@ neighbors (x, y) g =
         , (x, y - 1)
         ]
 
+move (x,y) (dx,dy) m =
+    if Array.inRange (Array.bounds m) (x+dx, y+dy)
+        then Just (x+dx, y+dy)
+        else Nothing
+
+west,east,south,north,koillis,kaakko,lounas,luode
+    :: (Array.Ix a, Array.Ix b, Num a, Num b)
+    => (a, b) -> Array (a, b) e -> Maybe (a, b)
+west (x,y) = move (x,y) (0,-1)
+east (x,y) = move (x,y) (0,1)
+north (x,y) = move (x,y) (-1,0)
+south (x,y) = move (x,y) (1,0)
+-- finnish directions
+koillis (x,y) = move (x,y) (-1,1)
+kaakko (x,y) = move (x,y) (1,1)
+lounas (x,y) = move (x,y) (1,-1)
+luode (x,y) = move (x,y) (-1,-1)
+
 mapNeighbors (x,y) m =
     let (max,_) = Map.findMax m
         (min,_) = Map.findMin m
-    in filter (Array.inRange (min,max)) 
+    in filter (Array.inRange (min,max))
         [ (x + 1, y)
         , (x - 1, y)
         , (x, y + 1)

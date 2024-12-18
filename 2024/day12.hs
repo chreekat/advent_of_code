@@ -37,11 +37,14 @@ import TwoD qualified
 ex1, dat :: String
 {-# NOINLINE ex1 #-}
 ex1 = unsafePerformIO (readFile "day12-ex1.txt")
+{-# NOINLINE ex2 #-}
+ex2 = unsafePerformIO (readFile "day12-ex2.txt")
 {-# NOINLINE dat #-}
 dat = unsafePerformIO (readFile "day12.txt")
 
 ans1 :: _
 ans1 = sum $ map (\(a,b,c) -> b*c) $ results $ process $ TwoD.twoD dat
+--ans1 = results $ process $ TwoD.twoD ex1
 
 -- 1. keep a map of unprocessed (open) nodes
 -- 2. keep a reminder of what node type is currently being processed
@@ -116,12 +119,29 @@ processNodeType = do
             processNode k v
             processNodeType
 
-addNodeResult sameTypeNs = do
+addNodeResult k = do
     -- avoid MonadFail
     res <- gets results
+    orig <- gets original
     let ((v, area, edge):rest) = res
-    let newRes = (v, area + 1, edge + (4 - length sameTypeNs)):rest
-    rresults newRes
+    -- nw = True if the TwoD.luode node is same type as the target node
+    -- w = True for TwoD.west, etc
+    let nw = maybe False ((== v) . (orig Array.!)) (TwoD.luode   k orig)
+        w  = maybe False ((== v) . (orig Array.!)) (TwoD.west    k orig)
+        n  = maybe False ((== v) . (orig Array.!)) (TwoD.north   k orig)
+        e  = maybe False ((== v) . (orig Array.!)) (TwoD.east    k orig)
+        s  = maybe False ((== v) . (orig Array.!)) (TwoD.south   k orig)
+        ne = maybe False ((== v) . (orig Array.!)) (TwoD.koillis  k orig)
+        sw = maybe False ((== v) . (orig Array.!)) (TwoD.lounas  k orig)
+
+        leftEdge = not w && (not n || nw)
+        rightEdge = not e && (not n || ne)
+        topEdge = not n && (not w || nw)
+        bottomEdge = not s && (not w || sw)
+        edges = [topEdge, rightEdge, bottomEdge, leftEdge]
+        edge' = length $ filter id edges
+    let newRes = (v, area + 1, edge + edge'):rest
+    (if False && v == 'C' then Tropes.traceShow (k,edges) else id) $ rresults newRes
 
 processNode k v = do
     m <- gets open
@@ -131,7 +151,7 @@ processNode k v = do
         unprocessedNs = mapMaybe (\i -> (i,) <$> Map.lookup i m) sameTypeNIdxs
         newOpen = foldr Map.delete m sameTypeNIdxs
     State.modify' (\(S _ q r _) -> S newOpen (q ++ unprocessedNs) r orig)
-    addNodeResult sameTypeNIdxs
+    addNodeResult k
 
 
 
