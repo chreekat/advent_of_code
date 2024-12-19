@@ -19,14 +19,14 @@ common warnings
 common all
     import:           warnings
     other-modules:
-        Tropes
-        SimpleParse
-        TwoD
         Array
-        Set
-        Map
-        Seq
         HMap
+        Map
+        SimpleParse
+        Seq
+        Set
+        Tropes
+        TwoD
     -- other-extensions:
     build-depends:
         base ^>=4.18.2.1,

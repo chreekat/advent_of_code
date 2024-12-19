@@ -1,32 +1,23 @@
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
-{-# HLINT ignore "Use camelCase" #-}
-module SimpleParse (module X, module SimpleParse, L.decimal, L.hexadecimal) where
+module SimpleParse (module X, module SimpleParse) where
 
 import Data.Maybe
 import Data.Void
 import Text.Megaparsec as X
 import Text.Megaparsec.Char as X
-import Text.Megaparsec.Char.Lexer as L
+import Text.Megaparsec.Char.Lexer qualified as L
 
 type Parser = Parsec Void String
 
-p_char :: Char -> Parser Char
-p_char = char
-
-p_int :: Parser Int
-p_int = decimal
-
-p_string :: String -> Parser String
-p_string = string
-
-pInt = parseMaybe p_int
+spaceConsumer :: Parser ()
+spaceConsumer = L.space space1 empty empty
 
 parse' p = fromJust . parseMaybe p
 
-spaceConsumer :: Parser ()
-spaceConsumer = L.space space1 empty empty
-lexx = L.lexeme spaceConsumer
-integer = lexx L.decimal
+lexeme = L.lexeme spaceConsumer
+decimal = lexeme L.decimal
+
 signedInt :: Parser Int
-signedInt = L.signed spaceConsumer integer
-sym = L.symbol spaceConsumer
+signedInt = L.signed spaceConsumer decimal
+
+symbol = L.symbol spaceConsumer
