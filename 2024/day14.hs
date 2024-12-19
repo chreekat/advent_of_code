@@ -51,8 +51,8 @@ ans1 =
         result = sort $ map (\(p,v) -> moveMany space p v count) robots
         quads = quadrants space result
         step m = map (\(p,v) -> moveMany space p v m)
-    in findLoop space (step start robots)
-    --in prettyState start space $ step start robots
+    --in findLoop space (step start robots)
+    in prettyState start space $ step start robots
     --in product $ map length $ quadrants space (step 50 (step 25 (step 25 robots)))
 
 type State = [((Int, Int), (Int, Int))]
@@ -127,4 +127,4 @@ parse = do
 ans2 :: _
 ans2 = undefined
 
-main = print ans1
+main = putStr ans1
