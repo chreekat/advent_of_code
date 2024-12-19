@@ -40,6 +40,9 @@ common all
         vector,
         unordered-containers,
         combinatorial,
+        xxhash-ffi,
+        hashable,
+        text,
     ghc-options: -threaded
     hs-source-dirs:   .
     default-language: GHC2021
