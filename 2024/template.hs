@@ -32,6 +32,7 @@ import Seq qualified
 import Tropes hiding (traceShow, traceShowId)
 import Tropes qualified
 import TwoD qualified
+import Data.List.Split qualified as Split
 
 ex1, dat :: String
 {-# NOINLINE ex1 #-}
