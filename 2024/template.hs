@@ -1,6 +1,7 @@
 {-# HLINT ignore "Move brackets to avoid $" #-}
 {-# HLINT ignore "Redundant map" #-}
 {-# HLINT ignore "Unused LANGUAGE pragma" #-}
+{-# HLINT ignore "Use if" #-}
 {-# HLINT ignore "Use infix" #-}
 {-# HLINT ignore "Use <$>" #-}
 {-# HLINT ignore "Use tuple-section" #-}
@@ -19,20 +20,21 @@
 {-# OPTIONS_GHC -Wno-unused-imports #-}
 
 import Array qualified
+import Control.Monad.State qualified as State
 import Control.Monad.Writer.CPS as Writer
 import Data.Foldable qualified as Fold
 import Data.List qualified as List
+import Data.List.Split qualified as Split
 import Data.Maybe qualified as Maybe
 import Data.Sequence (Seq ((:<|), (:|>)))
-import Data.Set qualified as Set
 import Data.Vector qualified as Vector
 import HMap qualified
 import Map qualified
 import Seq qualified
-import Tropes hiding (traceShow, traceShowId)
+import Set qualified
+import Tropes hiding (traceShow, traceShowId, range)
 import Tropes qualified
 import TwoD qualified
-import Data.List.Split qualified as Split
 
 ex1, dat :: String
 {-# NOINLINE ex1 #-}

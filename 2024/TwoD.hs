@@ -79,6 +79,21 @@ neighbors (x, y) g =
         , (x, y - 1)
         ]
 
+move' (dx,dy) (x,y) = (x+dx, y+dy)
+west',east',south',north',koillis',kaakko',lounas',luode'
+    :: (Array.Ix a, Array.Ix b, Num a, Num b)
+    => (a, b) -> (a, b)
+west' = move' (0,-1)
+east' = move' (0,1)
+north' = move' (-1,0)
+south' = move' (1,0)
+-- finnish directions
+koillis' = move' (-1,1)
+kaakko' = move' (1,1)
+lounas' = move' (1,-1)
+luode' = move' (-1,-1)
+
+
 move (x,y) (dx,dy) m =
     if Array.inRange (Array.bounds m) (x+dx, y+dy)
         then Just (x+dx, y+dy)
