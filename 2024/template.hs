@@ -19,7 +19,10 @@
 {-# OPTIONS_GHC -Wno-missing-signatures #-}
 {-# OPTIONS_GHC -Wno-unused-imports #-}
 
+import Prelude hiding (lookup)
 import Array qualified
+import System.IO qualified as Sys
+import Control.Monad qualified as Monad
 import Control.Monad.State qualified as State
 import Control.Monad.Writer.CPS as Writer
 import Data.Foldable qualified as Fold
@@ -32,7 +35,7 @@ import HMap qualified
 import Map qualified
 import Seq qualified
 import Set qualified
-import Tropes hiding (traceShow, traceShowId, range)
+import Tropes hiding (traceShow, traceShowId, range,(!))
 import Tropes qualified
 import TwoD qualified
 

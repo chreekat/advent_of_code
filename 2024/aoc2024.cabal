@@ -40,7 +40,7 @@ common all
         vector,
         unordered-containers,
         combinatorial,
-        xxhash-ffi,
+        transformers,
         hashable,
         text,
     ghc-options: -threaded
