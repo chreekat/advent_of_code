@@ -35,13 +35,15 @@ import HMap qualified
 import Map qualified
 import Seq qualified
 import Set qualified
-import Tropes hiding (traceShow, traceShowId, range)
+import Tropes hiding (traceShow, traceShowId, range,(!))
 import Tropes qualified
 import TwoD qualified
 
 ex1, dat :: String
 {-# NOINLINE ex1 #-}
 ex1 = unsafePerformIO (readFile "day16-ex1.txt")
+{-# NOINLINE ex2 #-}
+ex2 = unsafePerformIO (readFile "day16-ex2.txt")
 {-# NOINLINE dat #-}
 dat = unsafePerformIO (readFile "day16.txt")
 
@@ -59,8 +61,26 @@ showStep (AStar open _ goal grid _) =
     let openIdxs = map snd (Set.toList (tl_set open))
     in TwoD.showTwoD (grid Array.// ((goal, 'A') : [ (i_pos i,'!') | i <- openIdxs ]))
 
+showPath :: AStar -> _ -> String
+showPath astar path = TwoD.showTwoD (a_grid astar Array.// [ (i ,'O') | i <- path ])
+
 ans2 :: _
 ans2 = undefined
+
+main1 = do 
+    Sys.hSetBuffering Sys.stdout Sys.NoBuffering
+    Sys.hSetBuffering Sys.stdin Sys.NoBuffering
+    let a = ans1
+    let f s = do
+            -- _ <- getChar
+            case runAStar s of
+                Nothing -> 
+                    print $ Map.filterWithKey (\(Index p _) _ -> p == (7,5)) $ tl_map $ a_closed s
+                    -- print (a_solns s, Map.size $ tl_map $ a_closed s)
+                Just a' -> do
+                    -- putStrLn $ showStep a'
+                    f a'
+    f a
 
 main = do 
     Sys.hSetBuffering Sys.stdout Sys.NoBuffering
@@ -70,14 +90,48 @@ main = do
             -- _ <- getChar
             case runAStar s of
                 Nothing -> 
-                    print (a_solns s, Map.size $ tl_map $ a_closed s)
+                    let paths = findAllPath s
+                    in print $ (length $ paths, length $ nub $ sort paths)
+                    --putStr $ showPath s $ findAllPath s
+                    -- print (a_solns s, Map.size $ tl_map $ a_closed s)
                 Just a' -> do
                     -- putStrLn $ showStep a'
                     f a'
-
     f a
 
-backtrack 
+-- Look for previous steps that come through us.
+-- We know the position of previous steps. There may be multiple nodes at that
+-- position. We pick all of them if their_cost + diff = our_cost.
+backtrack (Index (x,y) d) astar =
+    let prev_pos = case d of
+            Po -> (x+1, y)
+            Et -> (x-1, y)
+            Lä -> (x, y+1)
+            It -> (x, y-1)
+        our_cost = g $ a_closed astar ! Index (x,y) d
+        prev_pos_nodes = Map.filterWithKey filterPrev $ tl_map $ a_closed astar
+        filterPrev (Index p d') n =
+            p == prev_pos 
+            && our_cost == g n + if d == d' then 1 else 1001
+    in Map.keys $ prev_pos_nodes
+
+-- findPath :: AStar -> Index (Int,Int) -> [(Int,Int)]
+findPath a i = go a [i]
+    where
+    go _ [] = []
+    go astar (i@(Index p d):rest) = p : case backtrack i astar of
+        [] -> go astar rest
+        -- Remove us from the list of closed paths before continuing
+        -- Thread the new astar through every call: it's a fold
+        prevs -> go (astar { a_closed = delete i (a_closed astar) }) (prevs ++ rest)
+
+findAllPath astar =
+    let endNodes = Map.filterWithKey filterKey $ tl_map $ a_closed astar
+        lowestCost = minimum $ map g $ Map.elems endNodes
+        allSuccess = Map.filter (\n -> g n == lowestCost) endNodes
+        filterKey (Index p _) _ = p == a_goal astar
+    in concatMap (findPath astar) (Map.keys allSuccess)
+
 -- A* algorithm
 --
 runAStar astar = do
